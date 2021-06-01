@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "github-rename-utils"
+version = "0.1.0"
+description = "Utility code to bulk rename protected branches and report on progess"
+authors = ["tess-barnes-mt <tess.barnes@madetech.com>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+"github3.py" = "^2.0"
+sgqlc = "^13.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+responses = "^0.13"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
