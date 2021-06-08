@@ -2,7 +2,7 @@
 name = "github-rename-utils"
 version = "0.1.0"
 description = "Utility code to bulk rename protected branches and report on progess"
-authors = ["tess-barnes-mt <tess.barnes@madetech.com>"]
+authors = ["HMRC DDC Ops Team <ddcops-g@digital.hmrc.gov.uk>"]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
