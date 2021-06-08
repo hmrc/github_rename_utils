@@ -1,16 +1,21 @@
 import responses
 from github_rename_utils.github_wrapper import get_github_client
-from github_rename_utils.github_requests import get_default_branch_report
-from tests.mock_rest_payloads import owning_team, repos_body, \
+from github_rename_utils.rest_report_utils import get_default_branch_report
+from tests.mock_rest_payloads import owning_team, repos_body, org_result, \
   prs_body, hook_data, owning_teams, shared_teams
 
-
+def setup_org(org_name="my-org"):
+    responses.add(responses.GET, f"https://api.github.com/orgs/{org_name}",
+                            body=org_result,
+                            status=200,
+                            content_type='text/json')
+                            
 @responses.activate
 def test_get_report_returns_three_complete_entries():
     org = "my-org"
-    user = "app"
     token = "__dummy__"
     team = "my-team"
+    setup_org()
 
     responses.add(responses.GET, "https://api.github.com/orgs/my-org/teams/my-team",
                             body=owning_team,
@@ -58,7 +63,7 @@ def test_get_report_returns_three_complete_entries():
                             body=shared_teams,
                             content_type='text/json')
 
-    client = get_github_client(org, team, user, token)
+    client = get_github_client(org, team, token)
     data = get_default_branch_report(client, ["my-team"],[])
 
     assert 3 == len(data)

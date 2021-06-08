@@ -6,7 +6,7 @@ import responses
 from unittest.mock import Mock
 
 from github_rename_utils.github_wrapper import get_github_client
-from github_rename_utils.github_requests import copy_branch_protection, get_branch_details, \
+from github_rename_utils.github_requests import copy_branch_protection, \
     get_branch_protection, delete_branch, delete_old_branch_protection
 from github_rename_utils.rename_utils import get_repository, is_repository_shared, \
     copy_branch, update_pull_requests, get_webhook_report, \
