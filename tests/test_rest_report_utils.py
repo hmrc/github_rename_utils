@@ -12,6 +12,11 @@ def setup_org(org_name="my-org"):
                             
 @responses.activate
 def test_get_report_returns_three_complete_entries():
+    '''
+    This is the REST approach for reporting which will not be efficient to scale
+    This is left in as a reference for business process for future code 
+    written against the github4 endpoint
+    '''
     org = "my-org"
     token = "__dummy__"
     team = "my-team"
@@ -31,7 +36,7 @@ def test_get_report_returns_three_complete_entries():
                             content_type='text/json', 
                             match_querystring=True)
 
-    responses.add(responses.GET, 'https://api.github.com/repos/my-org/Hello-World/pulls?state=open',
+    responses.add(responses.GET, 'https://api.github.com/repos/my-org/my-repo/pulls?state=open',
                             body='[]',
                             content_type='text/json')
 
@@ -69,5 +74,5 @@ def test_get_report_returns_three_complete_entries():
     assert 3 == len(data)
     assert 1 == data[1]['open_prs']
     assert 'main' == data[1]['default_branch']
-    assert 'tess/Hello-World' == data[0]['full_name']
+    assert 'my-org/my-repo' == data[0]['full_name']
     assert 0 == data[0]['open_prs']

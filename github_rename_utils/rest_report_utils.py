@@ -1,6 +1,12 @@
 import requests
 import json
 
+'''
+This is the REST approach for reporting which will not be efficient to scale
+This is left in as a reference for business process for future code 
+written against the github4 endpoint
+'''
+
 def request_headers(token):
     return {
         "Authorization": f"token {token}",

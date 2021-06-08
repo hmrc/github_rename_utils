@@ -31,7 +31,11 @@ def test_get_repo_data():
     team_name = 'my-team'
     org_name = 'my-org'
     repo_name = 'my-repo'
-    # token = os.environ.get('GH_TOKEN', '')
+    '''
+    # in integration and production usage we would normally recommend that token is loaded 
+    # from an enironment variable for security
+    # e.g. token = os.environ.get('GH_TOKEN', '')
+    '''
     token = 'dummy_token'
 
     endpoint = utils.initialise_endpoint(token)

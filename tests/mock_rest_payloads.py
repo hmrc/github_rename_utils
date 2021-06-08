@@ -59,19 +59,19 @@ repos_body = """
     [
   {
     "name": "my-repo",
-    "full_name": "tess/my-repo",
+    "full_name": "my-org/my-repo",
     "default_branch": "master",
     "teams_url": "http://not-shared.com"
   },
   {
     "name": "Hello-New-World",
-    "full_name": "tess/Hello-New-World",
+    "full_name": "my-org/Hello-New-World",
     "default_branch": "main",
     "teams_url": "http://not-shared.com"
   },
   {
     "name": "Hello-Shared-World",
-    "full_name": "tess/Hello-Shared-World",
+    "full_name": "my-org/Hello-Shared-World",
     "default_branch": "main",
     "teams_url": "http://shared.com"
   }
