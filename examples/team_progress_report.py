@@ -21,13 +21,10 @@ We should report
    that there is no corrupt data or bad branches
  - if there is a 'master' branch even if the default branch has a different name
 We can also optionally report on
- - the webhooks attached to the repo
- - the required checks for the current default branch
+ - the webhooks attached to the repo which will reflect the required checks for the current default branch
 '''
 
-
-
-def report_specific_team_repos():
+def report_specific_team_repos_if_not_migrated():
   """Real call prototyping report script: report_specific_team_repos"""
   import os
   org = "my-org"
