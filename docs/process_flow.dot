@@ -1,0 +1,33 @@
+digraph prof {
+
+  node [style=filled,shape=box];
+  #rankdir=LR;
+
+  #definitions
+  create_new [label="Create new branch from specific commit"]
+  check_prs [label="Check for oustandng prs"]
+  update_prs [label="update base on prs"]
+  copy_branch_protection [label="copy branch protection from old default"]
+  add_protection_to_new [label="add protection to new branch"]
+  check_webhooks
+  set_new_branch_default
+  delete_old_default
+
+  # relationships
+  create_new -> check_prs
+
+  check_prs -> update_prs [color=red]
+  update_prs -> copy_branch_protection [color=red]
+
+  check_prs -> copy_branch_protection
+  copy_branch_protection -> add_protection_to_new
+
+  create_new -> check_webhooks
+
+  check_webhooks -> report
+
+  add_protection_to_new -> set_new_branch_default
+  set_new_branch_default -> delete_old_default
+  delete_old_default -> report
+
+}
