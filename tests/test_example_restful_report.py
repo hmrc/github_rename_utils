@@ -1,8 +1,10 @@
 import responses
+
+from tests.mock_rest_payloads import org_result, owning_team, repos_body, \
+    prs_body, owning_teams, shared_teams
+
+from examples.restful_report import get_default_branch_report
 from github_rename_utils.github_wrapper import get_github_client
-from github_rename_utils.rest_report_utils import get_default_branch_report
-from tests.mock_rest_payloads import owning_team, repos_body, org_result, \
-  prs_body, hook_data, owning_teams, shared_teams
 
 def setup_org(org_name="my-org"):
     responses.add(responses.GET, f"https://api.github.com/orgs/{org_name}",
@@ -11,7 +13,7 @@ def setup_org(org_name="my-org"):
                             content_type='text/json')
                             
 @responses.activate
-def test_get_report_returns_three_complete_entries():
+def test_get_restful_report_returns_three_complete_entries():
     '''
     This is the REST approach for reporting which will not be efficient to scale
     This is left in as a reference for business process for future code 
@@ -40,32 +42,24 @@ def test_get_report_returns_three_complete_entries():
                             body='[]',
                             content_type='text/json')
 
+    responses.add(responses.GET, "https://api.github.com/repos/my-org/my-repo/teams",
+                            body=owning_teams,
+                            content_type='text/json')
+    
+    responses.add(responses.GET, "https://api.github.com/repos/my-org/Hello-New-World/teams",
+                            body=owning_teams,
+                            content_type='text/json')
+    
+    responses.add(responses.GET, "https://api.github.com/repos/my-org/Hello-Shared-World/teams",
+                            body=shared_teams,
+                            content_type='text/json')
+
     responses.add(responses.GET, 'https://api.github.com/repos/my-org/Hello-New-World/pulls?state=open',
                             body=prs_body,
                             content_type='text/json')
 
     responses.add(responses.GET, 'https://api.github.com/repos/my-org/Hello-Shared-World/pulls?state=open',
                             body=prs_body,
-                            content_type='text/json')
-
-    responses.add(responses.GET, 'https://api.github.com/repos/my-org/Hello-World/hooks',
-                          body='[]',
-                          content_type='text/json')
-
-    responses.add(responses.GET, 'https://api.github.com/repos/my-org/Hello-New-World/hooks',
-                          body=hook_data,
-                          content_type='text/json')
-
-    responses.add(responses.GET, 'https://api.github.com/repos/my-org/Hello-Shared-World/hooks',
-                          body=hook_data,
-                          content_type='text/json')
-
-    responses.add(responses.GET, "http://not-shared.com",
-                            body=owning_teams,
-                            content_type='text/json')
-
-    responses.add(responses.GET, "http://shared.com",
-                            body=shared_teams,
                             content_type='text/json')
 
     client = get_github_client(org, team, token)

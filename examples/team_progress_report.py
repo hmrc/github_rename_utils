@@ -1,9 +1,9 @@
 import os
-from github_wrapper import get_github_client
-from github_requests import get_default_branch_report
+from github_rename_utils.github_wrapper import get_github_client
+from github_rename_utils.github_requests import get_default_branch_report
 
 '''
-The final version will accept arguments of 
+The final version might accept arguments of 
 - org name
 - team name
 - output path

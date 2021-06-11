@@ -811,16 +811,75 @@ hook_data = """
     "id": 12345678,
     "name": "web",
     "active": true,
+    "events": [
+      "push",
+      "pull_request"
+    ],
+    "config": {
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "url": "https://example.com/webhook"
+    },
     "updated_at": "2019-06-03T00:57:16Z",
-    "created_at": "2019-06-03T00:57:16Z"    
+    "created_at": "2019-06-03T00:57:16Z",
+    "url": "https://api.github.com/repos/my-org/my-repo/hooks/12345678",
+    "test_url": "https://api.github.com/repos/my-org/my-repo/hooks/12345678/test",
+    "ping_url": "https://api.github.com/repos/my-org/my-repo/hooks/12345678/pings",
+    "last_response": {
+      "code": null,
+      "status": "unused",
+      "message": null
+    }
   },
     {
     "type": "Repository",
     "id": 12345679,
     "name": "web",
-    "active": false,
+    "active": true,
+    "events": [
+      "push",
+      "pull_request"
+    ],
+    "config": {
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "url": "https://example.com/webhook"
+    },
     "updated_at": "2019-06-03T00:57:16Z",
-    "created_at": "2019-06-03T00:57:16Z"    
+    "created_at": "2019-06-03T00:57:16Z",
+    "url": "https://api.github.com/repos/my-org/my-repo/hooks/12345679",
+    "test_url": "https://api.github.com/repos/my-org/my-repo/hooks/12345679/test",
+    "ping_url": "https://api.github.com/repos/my-org/my-repo/hooks/12345679/pings",
+    "last_response": {
+      "code": null,
+      "status": "unused",
+      "message": null
+    }
+  },
+  {
+    "type": "Repository",
+    "id": 12345690,
+    "name": "web",
+    "active": false,
+    "events": [
+      "push",
+      "pull_request"
+    ],
+    "config": {
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "url": "https://example.com/webhook"
+    },
+    "updated_at": "2019-06-03T00:57:16Z",
+    "created_at": "2019-06-03T00:57:16Z",
+    "url": "https://api.github.com/repos/my-org/my-repo/hooks/12345690",
+    "test_url": "https://api.github.com/repos/my-org/my-repo/hooks/12345690/test",
+    "ping_url": "https://api.github.com/repos/my-org/my-repo/hooks/12345690/pings",
+    "last_response": {
+      "code": null,
+      "status": "unused",
+      "message": null
+    }
   }
 ]
   """
@@ -861,6 +920,40 @@ owning_teams = """
 ]
 """
 
+shared_teams_admin_only = """
+[
+    {
+    "id": 1,
+    "node_id": "MDQ6VGVhbTE=",
+    "url": "https://api.github.com/teams/3",
+    "html_url": "https://github.com/orgs/my-org/teams/known-admin-team",
+    "name": "Known Admin Team",
+    "slug": "known-admin-team",
+    "description": "A great team.",
+    "privacy": "closed",
+    "permission": "admin",
+    "members_url": "https://api.github.com/teams/3/members{/member}",
+    "repositories_url": "https://api.github.com/teams/3/repos",
+    "parent": null
+  },
+    {
+    "id": 1,
+    "node_id": "MDQ6VGVhbTE=",
+    "url": "https://api.github.com/teams/2",
+    "html_url": "https://github.com/orgs/my-org/teams/my-team",
+    "name": "my-team",
+    "slug": "my-team",
+    "description": "A great team.",
+    "privacy": "closed",
+    "permission": "admin",
+    "members_url": "https://api.github.com/teams/2/members{/member}",
+    "repositories_url": "https://api.github.com/teams/2/repos",
+    "parent": null
+  }
+]
+
+  """
+
 shared_teams = """
 [
   {
@@ -890,10 +983,25 @@ shared_teams = """
     "members_url": "https://api.github.com/teams/2/members{/member}",
     "repositories_url": "https://api.github.com/teams/2/repos",
     "parent": null
+  },
+    {
+    "id": 1,
+    "node_id": "MDQ6VGVhbTE=",
+    "url": "https://api.github.com/teams/3",
+    "html_url": "https://github.com/orgs/my-org/teams/known-admin-team",
+    "name": "Known Admin Team",
+    "slug": "known-admin-team",
+    "description": "A great team.",
+    "privacy": "closed",
+    "permission": "admin",
+    "members_url": "https://api.github.com/teams/3/members{/member}",
+    "repositories_url": "https://api.github.com/teams/3/repos",
+    "parent": null
   }
 ]
 
   """
+
 
 my_new_ref = """
 {

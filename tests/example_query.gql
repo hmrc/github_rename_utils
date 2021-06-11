@@ -1,0 +1,47 @@
+query Team_Repos($team_slug: String!, $org: String!, $repo_cursor: String!){
+  organization(login: $org) {
+    id
+    name
+    team(slug: $team_slug) {
+      name
+      repositories(first: 100, after: $repo_cursor) {
+        totalCount
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          permission
+          node {
+            isArchived
+            id
+            name
+            defaultBranchRef {
+              id
+              name
+            }
+            branchProtectionRules(first: 5) {
+              edges {
+                node {
+                  matchingRefs(first: 5) {
+                    totalCount
+                    nodes {
+                      name
+                    }
+                  }
+                  requiredStatusCheckContexts
+                }
+              }
+            }
+            pullRequests(baseRefName: "master", states:[OPEN]) {
+              totalCount
+            }
+            branches: refs(refPrefix: "refs/heads/") {
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }
+}
