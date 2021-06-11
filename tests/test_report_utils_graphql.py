@@ -142,12 +142,69 @@ def test_get_active_owned_repo_data_for_team():
 
 @responses.activate
 def test_get_repo_data_on_all_repos_for_team():
-    assert False
+    
+    responses.add_callback(
+        responses.POST,
+        'https://api.github.com/graphql',
+        callback=request_callback,
+        content_type='application/json',
+    )
+
+    team_name = 'my-team'
+    org_name = 'my-org'
+    repo_name = 'my-repo'
+    token = 'dummy_token'
+
+    endpoint = utils.initialise_endpoint(token)
+
+    data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_read=True, include_archived=True)
+
+    assert data is not None
+    assert len(data) == len(expected_repos_all)
+    # todo deep comparison of returned objects
 
 @responses.activate
 def test_get_repo_data_on_all_active_repos_for_team():
-    assert False
+    
+    responses.add_callback(
+        responses.POST,
+        'https://api.github.com/graphql',
+        callback=request_callback,
+        content_type='application/json',
+    )
+
+    team_name = 'my-team'
+    org_name = 'my-org'
+    repo_name = 'my-repo'
+    token = 'dummy_token'
+
+    endpoint = utils.initialise_endpoint(token)
+
+    data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_read=True)
+
+    assert data is not None
+    assert len(data) == len(expected_repos_no_archived)
+    # todo deep comparison of returned objects
 
 @responses.activate
 def test_get_repo_data_on_all_owned_repos_for_team():
-    assert False
+    
+    responses.add_callback(
+        responses.POST,
+        'https://api.github.com/graphql',
+        callback=request_callback,
+        content_type='application/json',
+    )
+
+    team_name = 'my-team'
+    org_name = 'my-org'
+    repo_name = 'my-repo'
+    token = 'dummy_token'
+
+    endpoint = utils.initialise_endpoint(token)
+
+    data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_archived=True)
+
+    assert data is not None
+    assert len(data) == len(expected_repos_no_read)
+    # todo deep comparison of returned objects
