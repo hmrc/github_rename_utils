@@ -3,14 +3,13 @@ from github_rename_utils.github_graphql_wrapper import initialise_endpoint
 import json
 import os
 import responses
-
+from unittest import TestCase
 
 expected_repos_all = [
     {
         "name": "repo1",
         "default_branch": "master",
         "open_prs": 8,
-        "branches": 17,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": "master"
@@ -19,7 +18,6 @@ expected_repos_all = [
         "name": "repo2",
         "default_branch": "master",
         "open_prs": 4,
-        "branches": 34,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": "master"
@@ -28,7 +26,6 @@ expected_repos_all = [
         "name": "repo3",
         "default_branch": "master",
         "open_prs": 4,
-        "branches": 34,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": "master"
@@ -37,7 +34,6 @@ expected_repos_all = [
         "name": "repo-fhddjksfhk",
         "default_branch": "main",
         "open_prs": 0,
-        "branches": 2,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": None
@@ -46,7 +42,6 @@ expected_repos_all = [
         "name": "repo-saderwkrhs",
         "default_branch": "main",
         "open_prs": 0,
-        "branches": 1,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": None
@@ -55,7 +50,6 @@ expected_repos_all = [
         "name": "repo-thjrecvix",
         "default_branch": "master",
         "open_prs": 0,
-        "branches": 2,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": "master"
@@ -64,7 +58,6 @@ expected_repos_all = [
         "name": "repo-fdhiob",
         "default_branch": "main",
         "open_prs": 0,
-        "branches": 1,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
         "old_term_branch": None
@@ -94,6 +87,11 @@ expected_repos_no_read = [
     expected_repos_all[4],
     expected_repos_all[6],
 ]
+
+def compare_response_vs_expected(data, expected):
+    test_util = TestCase()
+    test_util.maxDiff = None
+    test_util.assertCountEqual(expected, data)
 
 def request_callback(request):
         from tests.expected_queries import team_repos_query_page1, team_repos_query_page2
@@ -138,8 +136,7 @@ def test_get_active_owned_repo_data_for_team():
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint)
 
     assert data is not None
-    assert len(data) == len(expected_repos_no_archived_no_read)
-    # todo deep comparison of returned objects
+    compare_response_vs_expected(data, expected_repos_no_archived_no_read)
 
 @responses.activate
 def test_get_repo_data_on_all_repos_for_team():
@@ -161,8 +158,8 @@ def test_get_repo_data_on_all_repos_for_team():
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_read=True, include_archived=True)
 
     assert data is not None
-    assert len(data) == len(expected_repos_all)
-    # todo deep comparison of returned objects
+    compare_response_vs_expected(data, expected_repos_all)
+    
 
 @responses.activate
 def test_get_repo_data_on_all_active_repos_for_team():
@@ -184,8 +181,7 @@ def test_get_repo_data_on_all_active_repos_for_team():
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_read=True)
 
     assert data is not None
-    assert len(data) == len(expected_repos_no_archived)
-    # todo deep comparison of returned objects
+    compare_response_vs_expected(data, expected_repos_no_archived)
 
 @responses.activate
 def test_get_repo_data_on_all_owned_repos_for_team():
@@ -207,5 +203,4 @@ def test_get_repo_data_on_all_owned_repos_for_team():
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_archived=True)
 
     assert data is not None
-    assert len(data) == len(expected_repos_no_read)
-    # todo deep comparison of returned objects
+    compare_response_vs_expected(data, expected_repos_no_read)

@@ -1,47 +1,3 @@
-repo_with_64_branches = """
-{
-  "data": {
-    "repository": {
-      "refs": {
-        "nodes": [
-          {
-            "name": "branch1"
-          },
-          {
-            "name": "branch2"
-          },
-          {
-            "name": "branch3"
-          },
-          {
-            "name": "branch4"
-          },
-          {
-            "name": "branch5"
-          },
-          {
-            "name": "branch6"
-          },
-          {
-            "name": "branch7"
-          },
-          {
-            "name": "branch8"
-          },
-          {
-            "name": "branch9"
-          },
-          {
-            "name": "main"
-          }
-        ],
-        "totalCount": 64
-      }
-    }
-  }
-}
-"""
-
 repo_list_page_1 = """
 {
   "data": {
@@ -89,8 +45,8 @@ repo_list_page_1 = """
                 "pullRequests": {
                   "totalCount": 8
                 },
-                "branches": {
-                  "totalCount": 17
+                "ref": {
+                  "name": "master"
                 }
               }
             },
@@ -124,8 +80,8 @@ repo_list_page_1 = """
                 "pullRequests": {
                   "totalCount": 4
                 },
-                "branches": {
-                  "totalCount": 34
+                "ref": {
+                  "name": "master"
                 }
               }
             },
@@ -159,8 +115,8 @@ repo_list_page_1 = """
                 "pullRequests": {
                   "totalCount": 4
                 },
-                "branches": {
-                  "totalCount": 34
+                "ref": {
+                  "name": "master"
                 }
               }
             }
@@ -217,9 +173,7 @@ repo_list_page_2 = """
                   "pullRequests": {
                     "totalCount": 0
                   },
-                  "branches": {
-                    "totalCount": 2
-                  }
+                  "ref": null
                 }
               },
               {
@@ -252,9 +206,7 @@ repo_list_page_2 = """
                   "pullRequests": {
                     "totalCount": 0
                   },
-                  "branches": {
-                    "totalCount": 1
-                  }
+                  "ref": null
                 }
               },
               {
@@ -287,8 +239,8 @@ repo_list_page_2 = """
                   "pullRequests": {
                     "totalCount": 0
                   },
-                  "branches": {
-                    "totalCount": 2
+                  "ref": {
+                    "name": "master"
                   }
                 }
               },
@@ -322,9 +274,7 @@ repo_list_page_2 = """
                   "pullRequests": {
                     "totalCount": 0
                   },
-                  "branches": {
-                    "totalCount": 1
-                  }
+                  "ref": null
                 }
               }
             ]

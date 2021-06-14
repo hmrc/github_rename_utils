@@ -3,7 +3,7 @@
 # from sgqlc.types import Variable
 # from github_rename_utils.schema import github_schema as schema
 
-from github_rename_utils.report_utils import build_team_report_operation_query, build_team_report_variables, map_repository_data_list
+from github_rename_utils.report_utils import build_team_report_query, build_team_report_variables, map_repository_data_list
 
 def get_repo_data(org, team, name, endpoint, include_read=False, include_archived=False):
 
@@ -14,7 +14,7 @@ def get_repo_data(org, team, name, endpoint, include_read=False, include_archive
     responses = [] # map at end? this will not allow gap between calls. Each call for 100 repos can take around 5 seconds
     mapped_repo_list = []
 
-    op = build_team_report_operation_query()
+    op = build_team_report_query()
     variables = build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_name)
     data = endpoint(op, variables)
 
