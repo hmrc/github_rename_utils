@@ -1,4 +1,5 @@
 import github_rename_utils.report as utils
+from github_rename_utils.github_graphql_wrapper import initialise_endpoint
 import json
 import os
 import responses
@@ -132,7 +133,7 @@ def test_get_active_owned_repo_data_for_team():
     '''
     token = 'dummy_token'
 
-    endpoint = utils.initialise_endpoint(token)
+    endpoint = initialise_endpoint(token)
 
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint)
 
@@ -155,7 +156,7 @@ def test_get_repo_data_on_all_repos_for_team():
     repo_name = 'my-repo'
     token = 'dummy_token'
 
-    endpoint = utils.initialise_endpoint(token)
+    endpoint = initialise_endpoint(token)
 
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_read=True, include_archived=True)
 
@@ -178,7 +179,7 @@ def test_get_repo_data_on_all_active_repos_for_team():
     repo_name = 'my-repo'
     token = 'dummy_token'
 
-    endpoint = utils.initialise_endpoint(token)
+    endpoint = initialise_endpoint(token)
 
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_read=True)
 
@@ -201,7 +202,7 @@ def test_get_repo_data_on_all_owned_repos_for_team():
     repo_name = 'my-repo'
     token = 'dummy_token'
 
-    endpoint = utils.initialise_endpoint(token)
+    endpoint = initialise_endpoint(token)
 
     data = utils.get_repo_data(org_name, team_name, repo_name, endpoint, include_archived=True)
 
