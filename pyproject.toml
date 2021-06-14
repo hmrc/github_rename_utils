@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "github-rename-utils"
-version = "0.1.0"
+version = "0.2.0"
 description = "Utility code to bulk rename protected branches and report on progess"
 authors = ["HMRC DDC Ops Team <ddcops-g@digital.hmrc.gov.uk>"]
 license = "Apache-2.0"
