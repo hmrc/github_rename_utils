@@ -1,6 +1,6 @@
-from sgqlc.operation import Operation
-from sgqlc.types import Variable, non_null
-from github_rename_utils.schema import github_schema as schema
+# from sgqlc.operation import Operation
+# from sgqlc.types import Variable, non_null
+# from github_rename_utils.schema import github_schema as schema
 from github_rename_utils.github_graphql_wrapper import initialise_endpoint
 from github_rename_utils.report_utils import get_team_names, get_repo_names_for_team
 
