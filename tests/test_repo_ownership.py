@@ -5,7 +5,7 @@ def integration_test_can_get_ownership_report():
     # integration test! may use 250 points against rate limiting on graphql endpoint
     token = os.environ['GH_TOKEN']
     org = 'hmrc'
-    ignored_teams = ['repository_admins']
+    ignored_teams = ['my-admin-team']
 
     assert token is not None
 
