@@ -32,7 +32,7 @@ This utils package is managed by poetry and may (depending on your poetry config
 - install dependencies: `poetry install`
 - run tests: `poetry run pytest`
 - build the package: `poetry build`
-- consume the wheel in your app: `pip install <path to this clone>/dist/github-rename-utils-0.1.0.tar.gz` (or use your favourite --find-links syntax)
+- consume the wheel in your app: `pip install <path to this clone>/dist/github-rename-utils-0.2.0.tar.gz` (or use your favourite --find-links syntax)
 
 ## Docs for dependent libraries
 
