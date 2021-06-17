@@ -54,7 +54,7 @@ def build_team_repo_name_query():
     return op
 
 def build_team_repo_name_variables(org, team, repos_cursor):
-    return {'org': org, 'team': team, 'reposCursor': repos_cursor}
+    return {'org': org, 'teamSlug': team, 'reposCursor': repos_cursor}
 
 def build_team_name_variables(org, teams_cursor):
     return {'org': org, 'teamsCursor': teams_cursor}
@@ -69,8 +69,8 @@ def map_repo_name_data(interpreted_response, include_read=False):
     if not include_read:
         expected_permissions = [permission for permission in valid_permissions if permission not in ['READ', 'TRIAGE']]
     
-    repo_names = [edge.repo.name for edge in interpreted_response.organization.team.repositories.edges
-                                        if edge.permission in expected_permissions and (not edge.repo.is_archived)]
+    repo_names = [edge.node.name for edge in interpreted_response.organization.team.repositories.edges
+                                        if edge.permission in expected_permissions and (not edge.node.is_archived)]
     return repo_names
 
 def get_team_names(endpoint, org):
@@ -114,7 +114,7 @@ def get_repo_names_for_team(endpoint, team_slug, org):
     while (interpreted_response.organization.team.repositories.page_info.has_next_page):
         repos.extend(map_repo_name_data(interpreted_response))
         page_cursor = interpreted_response.organization.team.repositories.page_info.end_cursor
-        repo_list_variables = build_team_repo_name_variables(org, page_cursor)
+        repo_list_variables = build_team_repo_name_variables(org, team_slug, page_cursor)
         data = endpoint(op, repo_list_variables)
         interpreted_response = (op + data)
     
