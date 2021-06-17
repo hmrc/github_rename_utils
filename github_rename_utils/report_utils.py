@@ -177,7 +177,7 @@ def map_repository_data_list(interpreted_response, include_read, include_archive
             continue
         
         repo = edge.node
-        bp = [edge.node for edge in repo.branch_protection_rules.edges if repo.default_branch_ref in [node.name for node in edge.node.matching_refs.nodes]]
+        bp = [edge.node for edge in repo.branch_protection_rules.edges if repo.default_branch_ref.name in [node.name for node in edge.node.matching_refs.nodes]]
         checks = []
         if bp is not None and len(bp) > 0:
             checks = bp[0].required_status_check_contexts

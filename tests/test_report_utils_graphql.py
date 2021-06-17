@@ -11,7 +11,7 @@ expected_repos_all = [
         "default_branch": "master",
         "open_prs": 8,
         "default_branch_protection": True,
-        "default_branch_protection_checks" : [],
+        "default_branch_protection_checks" : ['some-check-pr-builder'],
         "old_term_branch": "master"
     },
     {
