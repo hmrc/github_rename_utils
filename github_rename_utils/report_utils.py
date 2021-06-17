@@ -69,7 +69,7 @@ def map_repo_name_data(interpreted_response, include_read=False):
     if not include_read:
         expected_permissions = [permission for permission in valid_permissions if permission not in ['READ', 'TRIAGE']]
     
-    repo_names = [edge.repo.name for edge.repo in interpreted_response.organization.team.repositories.edges
+    repo_names = [edge.repo.name for edge in interpreted_response.organization.team.repositories.edges
                                         if edge.permission in expected_permissions and (not edge.repo.is_archived)]
     return repo_names
 
@@ -128,7 +128,7 @@ def build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_nam
     return {'teamSlug': team, 'org': org, 'reposCursor': repo_page_cursor, 'unwantedBranchName': unwanted_branch_name, 'unwantedBranchQualifiedName': f"refs/heads/{unwanted_branch_name}"}
 
 def build_team_report_query():
-    variables= {'teamSlug': non_null(str), 'org': non_null(str), 'reposCursor': str, 'unwantedBranchName': non_null(str), 'unwantedBranchQuery': non_null(str)}
+    variables= {'teamSlug': non_null(str), 'org': non_null(str), 'reposCursor': str, 'unwantedBranchName': non_null(str), 'unwantedBranchQualifiedName': non_null(str)}
     
     op = Operation(schema.Query, name='Team_Repos', variables=variables)
     query_add_rate_limiting_data(op)
