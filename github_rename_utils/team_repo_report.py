@@ -3,7 +3,7 @@
 # from sgqlc.types import Variable
 # from github_rename_utils.schema import github_schema as schema
 
-from github_rename_utils.report_utils import build_team_report_query, build_team_report_variables, map_repository_data_list
+from github_rename_utils.team_repo_report_utils import build_team_report_query, build_team_report_variables, map_repository_data_list
 
 def get_repo_data(org, team, name, endpoint, include_read=False, include_archived=False):
 

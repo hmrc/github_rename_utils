@@ -1,4 +1,5 @@
-import github_rename_utils.report as utils
+import github_rename_utils.team_repo_report as utils
+import github_rename_utils.team_repo_report_utils as report_utils
 from github_rename_utils.github_graphql_wrapper import initialise_endpoint
 import json
 import os
@@ -160,7 +161,6 @@ def test_get_repo_data_on_all_repos_for_team():
     assert data is not None
     compare_response_vs_expected(data, expected_repos_all)
     
-
 @responses.activate
 def test_get_repo_data_on_all_active_repos_for_team():
     
@@ -204,3 +204,4 @@ def test_get_repo_data_on_all_owned_repos_for_team():
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_read)
+

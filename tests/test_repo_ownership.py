@@ -1,6 +1,6 @@
 import os
 import json
-import examples.repo_shared_ownership as utils
+import github_rename_utils.shared_ownership as utils
 
 def integration_test_can_get_ownership_report():
     # integration test! may use 250 points against rate limiting on graphql endpoint

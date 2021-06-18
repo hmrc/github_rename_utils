@@ -284,3 +284,69 @@ repo_list_page_2 = """
     }
   }
 """
+
+team_name_list_page_1 = """
+{
+    "data": {
+      "rateLimit": {
+        "limit": 5000,
+        "cost": 1,
+        "remaining": 4989,
+        "resetAt": "2021-06-18T13:41:33Z"
+      },
+      "organization": {
+        "name": "My Org",
+        "teams": {
+          "totalCount": 223,
+          "pageInfo": {
+            "hasNextPage": false,
+            "endCursor": ""
+          },
+          "nodes": [
+            {
+              "slug": "my-team"
+            },
+            {
+              "slug": "my-admin-team"
+            },
+            {
+              "slug": "justice-league"
+            }
+          ]
+        }
+      }
+    }
+  }
+"""
+team_name_list_page_1_of_2 = """
+{
+    "data": {
+      "rateLimit": {
+        "limit": 5000,
+        "cost": 1,
+        "remaining": 4989,
+        "resetAt": "2021-06-18T13:41:33Z"
+      },
+      "organization": {
+        "name": "my-org",
+        "teams": {
+          "totalCount": 223,
+          "pageInfo": {
+            "hasNextPage": true,
+            "endCursor": "Y3Vyc29yOnYyOpMCskZ1dHVyZSBCb3JkZXJzIFJEU84AM7_i"
+          },
+          "nodes": [
+            {
+              "slug": "my-additional-team"
+            }
+          ]
+        }
+      }
+    }
+  }
+"""
+
+team_repo_owner_list_page_1 = """
+"""
+team_repo_owner_list_page_2 = """
+"""
