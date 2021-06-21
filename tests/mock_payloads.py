@@ -421,7 +421,125 @@ team_repo_owner_list = """
   }
 }
 """
+team_repo_owner_admin_list = """
+{
+  "data": {
+    "organization": {
+      "id": "erhtjeKJHF4WjkhjkkEEbnncxerhtje=",
+      "name": "my-org",
+      "team": {
+        "name": "my-admin-team",
+        "repositories": {
+          "totalCount": 111,
+          "pageInfo": {
+            "endCursor": "",
+            "hasNextPage": false
+          },
+          "edges": [
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo1"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo2"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo3"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo4"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+"""
 team_repo_owner_list_page_1 = """
+{
+  "data": {
+    "organization": {
+      "id": "erhtjeKJHF4WjkhjkkEEbnncxerhtje=",
+      "name": "my-org",
+      "team": {
+        "name": "my-team",
+        "repositories": {
+          "totalCount": 111,
+          "pageInfo": {
+            "endCursor": "fd3kle2jkKLfdsklswHTjk==",
+            "hasNextPage": true
+          },
+          "edges": [
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo1"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo2"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo3"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
 """
 team_repo_owner_list_page_2 = """
+{
+  "data": {
+    "organization": {
+      "id": "erhtjeKJHF4WjkhjkkEEbnncxerhtje=",
+      "name": "my-org",
+      "team": {
+        "name": "my-team",
+        "repositories": {
+          "totalCount": 111,
+          "pageInfo": {
+            "endCursor": "",
+            "hasNextPage": false
+          },
+          "edges": [
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo4"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
 """
