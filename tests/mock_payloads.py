@@ -127,7 +127,6 @@ repo_list_page_1 = """
   }
 }
 """
-
 repo_list_page_2 = """
 {
     "data": {
@@ -285,7 +284,7 @@ repo_list_page_2 = """
   }
 """
 
-team_name_list_page_1 = """
+team_name_list = """
 {
     "data": {
       "rateLimit": {
@@ -318,7 +317,40 @@ team_name_list_page_1 = """
     }
   }
 """
-team_name_list_page_1_of_2 = """
+team_name_list_page_1="""
+{
+    "data": {
+      "rateLimit": {
+        "limit": 5000,
+        "cost": 1,
+        "remaining": 4989,
+        "resetAt": "2021-06-18T13:41:33Z"
+      },
+      "organization": {
+        "name": "My Org",
+        "teams": {
+          "totalCount": 223,
+          "pageInfo": {
+            "hasNextPage": true,
+            "endCursor": "fd3kle2jkKLfdsklswHTjk=="
+          },
+          "nodes": [
+            {
+              "slug": "my-team"
+            },
+            {
+              "slug": "my-admin-team"
+            },
+            {
+              "slug": "justice-league"
+            }
+          ]
+        }
+      }
+    }
+  }
+"""
+team_name_list_page_2 = """
 {
     "data": {
       "rateLimit": {
@@ -332,8 +364,8 @@ team_name_list_page_1_of_2 = """
         "teams": {
           "totalCount": 223,
           "pageInfo": {
-            "hasNextPage": true,
-            "endCursor": "Y3Vyc29yOnYyOpMCskZ1dHVyZSBCb3JkZXJzIFJEU84AM7_i"
+            "hasNextPage": false,
+            "endCursor": ""
           },
           "nodes": [
             {

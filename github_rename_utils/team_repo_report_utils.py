@@ -4,9 +4,6 @@ from github_rename_utils.schema import github_schema as schema
 from github_rename_utils.github_graphql_wrapper import query_add_rate_limiting_data, valid_permissions
 
 
-
-
-
 def build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_name):
     return {'teamSlug': team, 'org': org, 'reposCursor': repo_page_cursor, 'unwantedBranchName': unwanted_branch_name, 'unwantedBranchQualifiedName': f"refs/heads/{unwanted_branch_name}"}
 

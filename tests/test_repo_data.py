@@ -10,10 +10,9 @@ def integration_test_can_get_repo_data():
 
     org = 'hmrc'
     team = 'ddcops'
-    repo = 'github_rename_utils'
 
     endpoint = initialise_endpoint(token)
-    data = utils.get_repo_data(org, team, repo, endpoint)
+    data = utils.get_repo_data(org, team, endpoint)
     print(data)
 
     assert len(data) > 0
