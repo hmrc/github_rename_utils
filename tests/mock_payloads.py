@@ -378,6 +378,49 @@ team_name_list_page_2 = """
   }
 """
 
+team_repo_owner_list = """
+{
+  "data": {
+    "organization": {
+      "id": "erhtjeKJHF4WjkhjkkEEbnncxerhtje=",
+      "name": "my-org",
+      "team": {
+        "name": "my-team",
+        "repositories": {
+          "totalCount": 111,
+          "pageInfo": {
+            "endCursor": "",
+            "hasNextPage": false
+          },
+          "edges": [
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo1"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo2"
+              }
+            },
+            {
+              "permission": "WRITE",
+              "node": {
+                "isArchived": false,
+                "name": "repo3"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+"""
 team_repo_owner_list_page_1 = """
 """
 team_repo_owner_list_page_2 = """
