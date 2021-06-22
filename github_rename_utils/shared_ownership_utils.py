@@ -8,7 +8,7 @@ def build_team_name_query(first_page=False):
     if first_page:
         variables = {'org': non_null(str)}
     else:
-        variables= {'org': non_null(str), 'teamsCursor': str }
+        variables = {'org': non_null(str), 'teamsCursor': str }
     
     op = Operation(schema.Query, name='Teams', variables=variables)
     query_add_rate_limiting_data(op)
@@ -55,7 +55,7 @@ def build_team_name_variables(org, teams_cursor):
 
 def map_team_name_data(intepreted_response):
     data = [team.slug for team in
-     intepreted_response.organization.teams.nodes]
+        intepreted_response.organization.teams.nodes]
     return data
 
 def map_repo_name_data(interpreted_response, include_read=False):
@@ -76,9 +76,6 @@ def get_team_names(endpoint, org):
     # githubV4 organization.teams endpoint will not allow empty string for end_cursor
     op_first_page = build_team_name_query(first_page=True)
     op = build_team_name_query()
-
-    print(op_first_page)
-    # print(op)
 
     data = endpoint(op_first_page, team_variables)
     interpreted_response = (op_first_page + data)

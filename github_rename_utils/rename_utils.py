@@ -8,7 +8,7 @@ def is_repository_shared(repo, owners):
     ownership_threshold = len(owners)
 
     count_teams = 0
-    for team in teams:
+    for _ in teams:
         count_teams += 1
         if count_teams > ownership_threshold:
             break
@@ -18,7 +18,7 @@ def is_repository_shared(repo, owners):
 def copy_branch(repo, source_branch_name, dest_branch_name):
     source_sha = repo.branch(source_branch_name).commit.sha
 
-    ref = repo.create_ref(f"refs/heads/{dest_branch_name}", source_sha)
+    repo.create_ref(f"refs/heads/{dest_branch_name}", source_sha)
     new_branch = repo.branch(dest_branch_name)
 
     return new_branch
@@ -31,8 +31,7 @@ def update_pull_requests(repo, old_base_name, new_base_name):
     for pr in prs:
         count += 1
         try:
-            # Modified = false where it is an idempotent success
-            modified = pr.update(base=new_base_name)
+            pr.update(base=new_base_name)
         except Exception:
             failures +=1
 
@@ -46,7 +45,7 @@ def get_webhook_report(repo):
     return results
 
 def update_default_branch(github_client, org, repo, new_branch_name):
-    success = repo.edit(repo.name, default_branch=new_branch_name)
+    repo.edit(repo.name, default_branch=new_branch_name)
 
     updated_repo = get_repository(github_client, org, repo.name)
 

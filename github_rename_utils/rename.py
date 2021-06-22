@@ -1,4 +1,3 @@
-from github_rename_utils.github_wrapper import get_github_client
 from github_rename_utils.github_requests import copy_branch_protection, \
     delete_old_branch_protection, delete_branch
 from github_rename_utils.rename_utils import get_repository, is_repository_shared, \
