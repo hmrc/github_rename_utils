@@ -3,6 +3,18 @@ from github_rename_utils.github_graphql_wrapper import initialise_endpoint
 import responses
 from unittest import TestCase
 
+
+'''
+# in integration and production usage we would normally recommend that token is loaded 
+# from an enironment variable for security
+# e.g. token = os.environ.get('GH_TOKEN', '')
+'''
+token = 'dummy_token'
+
+org = 'my-org'
+team_slug = 'my-team'
+repos_cursor = 'fd3kle2jkKLfdsklswHTjk=='
+
 expected_repos_all = [
     {
         "name": "repo1",
@@ -92,14 +104,14 @@ def compare_response_vs_expected(data, expected):
     test_util.assertCountEqual(expected, data)
 
 def request_callback(request):
-        from tests.expected_queries import team_repos_query_page1, team_repos_query_page2
+        from tests.expected_queries import team_repos_query
         from tests.mock_payloads import repo_list_page_1, repo_list_page_2
 
-        if team_repos_query_page1 == request.body:
+        if team_repos_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
             return (200, headers, repo_list_page_1)
         
-        elif team_repos_query_page2 == request.body:
+        elif team_repos_query(org, team_slug, repos_cursor) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c14'}
             return (200, headers, repo_list_page_2)
 
@@ -117,18 +129,9 @@ def test_get_active_owned_repo_data_for_team():
         content_type='application/json',
     )
 
-    team_name = 'my-team'
-    org_name = 'my-org'
-    '''
-    # in integration and production usage we would normally recommend that token is loaded 
-    # from an enironment variable for security
-    # e.g. token = os.environ.get('GH_TOKEN', '')
-    '''
-    token = 'dummy_token'
-
     endpoint = initialise_endpoint(token)
 
-    data = utils.get_repo_data(org_name, team_name, endpoint)
+    data = utils.get_repo_data(org, team_slug, endpoint)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived_no_read)
@@ -143,13 +146,9 @@ def test_get_repo_data_on_all_repos_for_team():
         content_type='application/json',
     )
 
-    team_name = 'my-team'
-    org_name = 'my-org'
-    token = 'dummy_token'
-
     endpoint = initialise_endpoint(token)
 
-    data = utils.get_repo_data(org_name, team_name, endpoint, include_read=True, include_archived=True)
+    data = utils.get_repo_data(org, team_slug, endpoint, include_read=True, include_archived=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_all)
@@ -164,13 +163,9 @@ def test_get_repo_data_on_all_active_repos_for_team():
         content_type='application/json',
     )
 
-    team_name = 'my-team'
-    org_name = 'my-org'
-    token = 'dummy_token'
-
     endpoint = initialise_endpoint(token)
 
-    data = utils.get_repo_data(org_name, team_name, endpoint, include_read=True)
+    data = utils.get_repo_data(org, team_slug, endpoint, include_read=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived)
@@ -185,13 +180,9 @@ def test_get_repo_data_on_all_owned_repos_for_team():
         content_type='application/json',
     )
 
-    team_name = 'my-team'
-    org_name = 'my-org'
-    token = 'dummy_token'
-
     endpoint = initialise_endpoint(token)
 
-    data = utils.get_repo_data(org_name, team_name, endpoint, include_archived=True)
+    data = utils.get_repo_data(org, team_slug, endpoint, include_archived=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_read)

@@ -4,19 +4,23 @@ import responses
 
 @responses.activate
 def test_get_ownership_ignores_expected_ignore_teams():
+    org = 'my-org'
+    team_slug = 'my-team'
+    admin_team_slug = 'my-admin-team'
+
     def custom_callback(request):
-        from tests.expected_queries import team_names_page1, team_repo_names_page1, team_repo_names_admin_page1
+        from tests.expected_queries import team_names_query, team_repo_name_query
         from tests.mock_payloads import team_name_list, team_repo_owner_list, team_repo_owner_admin_list
 
-        if team_names_page1 == request.body:
+        if team_names_query(org) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
             return (200, headers, team_name_list)
 
-        if team_repo_names_page1 == request.body:
+        if team_repo_name_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c14'}
             return (200, headers, team_repo_owner_list)
 
-        elif team_repo_names_admin_page1 == request.body:
+        elif team_repo_name_query(org, admin_team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c15'}
             return (200, headers, team_repo_owner_admin_list)
 
@@ -32,16 +36,15 @@ def test_get_ownership_ignores_expected_ignore_teams():
     )
 
     token = '__dummy__'
-    org_name = 'my-org'
     ignored_teams = ['justice-league']
 
     expected_shared_ownership_report = {
-        'repo1': ['my-team', 'my-admin-team'],
-        'repo2': ['my-team', 'my-admin-team'],
-        'repo3': ['my-team', 'my-admin-team'],
-        'repo4': ['my-admin-team']
+        'repo1': [team_slug, admin_team_slug],
+        'repo2': [team_slug, admin_team_slug],
+        'repo3': [team_slug, admin_team_slug],
+        'repo4': [admin_team_slug]
     }
 
-    actual_report = get_shared_ownership_report(token, org_name, ignored_teams)
+    actual_report = get_shared_ownership_report(token, org, ignored_teams)
 
     assert expected_shared_ownership_report == actual_report
