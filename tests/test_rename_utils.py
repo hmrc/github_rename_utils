@@ -1,9 +1,8 @@
 import json
 import pytest
 import responses
-from unittest.mock import Mock
 
-from github_rename_utils.github_wrapper import get_github_client
+from github_rename_utils.rest_utils import create_rest_client
 from github_rename_utils.github_requests import copy_branch_protection, \
     get_branch_protection, delete_branch, delete_old_branch_protection
 from github_rename_utils.rename_utils import get_repository, copy_branch, \
@@ -49,7 +48,7 @@ def test_client_can_get_repo_from_search():
     # create the client using dummy token
     # Subsequent calls using the client need to be intercepted.
 
-    client = get_github_client(org, None, token)
+    client = create_rest_client(token)
     repo = get_repository(client, org, repo_name)
     assert repo is not None
 
@@ -79,7 +78,7 @@ def test_branch_can_be_copied():
 
     token = '__dummy__'
     org = "my-org"
-    client = get_github_client(org, None, token)
+    client = create_rest_client(token)
     new_branch_name = "main"
 
     repo = get_repository(client, org, "my-repo")
@@ -114,7 +113,7 @@ def test_can_handle_pr_rebase_correctly(status, expected_failures):
 
     token = '__dummy__'
     org = "my-org"
-    client = get_github_client(org, None, token)
+    client = create_rest_client(token)
     new_branch_name = "main"
 
     repo = get_repository(client, org, "my-repo")
@@ -125,16 +124,14 @@ def test_can_handle_pr_rebase_correctly(status, expected_failures):
 
 @responses.activate
 def test_can_retrieve_branch_protection():
-
-    setup_org("octocat")
-
     protection_url = "https://api.github.com/repos/octocat/Hello-World/branches/master/protection"
     responses.add(responses.GET, protection_url, status=200, content_type='text/json', body=branch_protection)
 
     token = '__dummy__'
-    client = get_github_client("octocat", None, token)
+    org = 'octocat'
+    client = create_rest_client(token)
 
-    protection = get_branch_protection(client, "Hello-World", 'master')
+    protection = get_branch_protection(client, org, "Hello-World", 'master')
 
     assert None is not protection
     assert True == protection['enforce_admins']['enabled']
@@ -153,9 +150,9 @@ def test_protection_can_be_copied():
     token = '__dummy__'
     org = "octocat"
     repo = "Hello-World"
-    client = get_github_client(org, None, token)
+    client = create_rest_client(token)
 
-    success = copy_branch_protection(client, repo, 'master', 'main')
+    success = copy_branch_protection(client, org, repo, 'master', 'main')
 
     assert True == success
 
@@ -176,7 +173,7 @@ def test_update_repo_default_branch():
     token = '__dummy__'
     org = "my-org"
 
-    client = get_github_client(org, None, token)
+    client = create_rest_client(token)
     repo = get_repository(client, org, "my-repo")
     new_branch_name = "main"
 
@@ -191,7 +188,11 @@ def test_delete_branch():
 
     responses.add(responses.DELETE, url, status=204)
 
-    success = delete_branch(StubClient(), "test", "master")
+    token = '__dummy__'
+
+    client = create_rest_client(token)
+    success = delete_branch(client, "dummy_org", "test", "master")
+
     assert success == True
 
 @responses.activate
@@ -200,5 +201,8 @@ def test_delete_branch_protection():
 
     responses.add(responses.DELETE, url, status=204)
 
-    success = delete_old_branch_protection(StubClient(),"test","master")
+    token = '__dummy__'
+
+    client = create_rest_client(token)
+    success = delete_old_branch_protection(client, "dummy_org", "test", "master")
     assert success == True

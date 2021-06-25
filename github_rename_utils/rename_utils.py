@@ -1,5 +1,5 @@
-def get_repository(github_client, org, name):
-    results = github_client.github.search_repositories(f"repo:{org}/{name}")
+def get_repository(client, org_name, repo_name):
+    results = client.search_repositories(f"repo:{org_name}/{repo_name}")
     result = results.next()
     return result.repository
 
@@ -44,9 +44,9 @@ def get_webhook_report(repo):
 
     return results
 
-def update_default_branch(github_client, org, repo, new_branch_name):
+def update_default_branch(client, org_name, repo, new_branch_name):
     repo.edit(repo.name, default_branch=new_branch_name)
 
-    updated_repo = get_repository(github_client, org, repo.name)
+    updated_repo = get_repository(client, org_name, repo.name)
 
     return updated_repo

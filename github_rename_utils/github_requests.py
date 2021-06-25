@@ -1,19 +1,10 @@
-import requests
+def get_branch_protection(client, org_name, repo_name, branch_name):
+    url = client.session.build_url('repos', org_name, repo_name, 'branches', branch_name, 'protection')
+    response = client.session.get(url)
 
-
-def request_headers(token):
-    return {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json,application/vnd.github.luke-cage-preview+json,application/vnd.github.zzzax-preview+json"
-    }
-
-def get_branch_protection(git_accessor, repo_name, branch):
-    branch_url = f'https://api.github.com/repos/{git_accessor.org_name}/{repo_name}/branches/{branch}/protection'
-    response = requests.get(branch_url, headers=request_headers(git_accessor.token))
     return response.json()
 
 def get_protection_template():
-
     return {
         "required_status_checks": {
             "strict": True,
@@ -41,7 +32,7 @@ def get_protection_template():
     }
 
 def map_branch_protection_payload(existing_protection, data):
-        # map specifics onto template
+    # map specifics onto template
     if existing_protection.get('required_status_checks', None) is not None:
         data['required_status_checks']['contexts'] = existing_protection['required_status_checks']['contexts']
     else:
@@ -90,35 +81,33 @@ def map_branch_protection_payload(existing_protection, data):
     return data
 
 
-def copy_branch_protection(git_accessor,repo_name, old_branch, new_branch):
-
+def copy_branch_protection(client, org_name, repo_name, old_branch, new_branch):
     # assumes that new branch exists but protection has not yet been added
     # - protection is only available on public repos for free account
     data = get_protection_template()
 
-    data['owner'] = git_accessor.org_name
+    data['owner'] = org_name
     data['repo'] = repo_name
     data['branch'] = new_branch
 
-    existing_protection = get_branch_protection(git_accessor, repo_name, old_branch)
+    existing_protection = get_branch_protection(client, org_name, repo_name, old_branch)
 
     data = map_branch_protection_payload(existing_protection, data)
 
-    update_url = f'https://api.github.com/repos/{git_accessor.org_name}/{repo_name}/branches/{new_branch}/protection'
-    response = requests.put(url=update_url, json=data, headers=request_headers(git_accessor.token))
+    url = client.session.build_url('repos', org_name, repo_name, 'branches', new_branch, 'protection')
+    response = client.session.put(url, json=data)
 
     return response.status_code == 200
 
-def delete_old_branch_protection(git_accessor, repo_name, branch_name):
-    update_url = f'https://api.github.com/repos/{git_accessor.org_name}/{repo_name}/branches/{branch_name}/protection'
-    response = requests.delete(url=update_url, headers=request_headers(git_accessor.token))
+def delete_old_branch_protection(client, org_name, repo_name, branch_name):
+    url = client.session.build_url('repos', org_name, repo_name, 'branches', branch_name, 'protection')
+    response = client.session.delete(url)
 
     return response.status_code == 204
 
-def delete_branch(git_accessor, repo_name, branch_name):
-    ref = f"refs/heads/{branch_name}"
-    ref_url = f'https://api.github.com/repos/{git_accessor.org_name}/{repo_name}/git/{ref}'
-    response = requests.delete(ref_url, headers=request_headers(git_accessor.token))
+def delete_branch(client, org_name, repo_name, branch_name):
+    url = client.session.build_url('repos', org_name, repo_name, 'git', 'refs', 'heads', branch_name)
+    response = client.session.delete(url)
 
     return response.status_code == 204
 

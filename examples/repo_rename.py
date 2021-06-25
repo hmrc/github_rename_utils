@@ -25,7 +25,7 @@ parser.add_argument('-n','--new-name', help='<Required> Set flag', required=True
 
 """
 import os
-from github_rename_utils.github_wrapper import get_github_client
+from github_rename_utils.rest_utils import create_rest_client
 from github_rename_utils.rename import convert_repo
 from pprint import pprint
 
@@ -34,7 +34,7 @@ repos = []
 
 token = os.getenv("GH_TOKEN")
 org = "my-org"
-client = get_github_client(org, None, token)
+client = create_rest_client(token)
 report = []
 
 for repo_name in repos:

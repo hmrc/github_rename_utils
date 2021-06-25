@@ -1,5 +1,5 @@
 import github_rename_utils.shared_ownership_utils as report_utils
-from github_rename_utils.github_graphql_wrapper import initialise_endpoint
+from github_rename_utils.graphql_utils import initialise_endpoint
 import responses
 from unittest import TestCase
 

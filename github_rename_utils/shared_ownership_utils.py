@@ -1,7 +1,7 @@
 from sgqlc.operation import Operation
 from sgqlc.types import Variable, non_null
 from github_rename_utils.schema import github_schema as schema
-from github_rename_utils.github_graphql_wrapper import query_add_rate_limiting_data, valid_permissions
+from github_rename_utils.graphql_utils import query_add_rate_limiting_data, valid_permissions
 
 
 def build_team_name_query(first_page=False):
@@ -26,7 +26,6 @@ def build_team_name_query(first_page=False):
     return op
 
 def build_team_repo_name_query():
-    
     variables= {'org': non_null(str), 'teamSlug': non_null(str),'reposCursor': str }
     
     op = Operation(schema.Query, name='Per_Team_Repos', variables=variables)

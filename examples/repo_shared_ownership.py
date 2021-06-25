@@ -1,5 +1,5 @@
 from collections import defaultdict
-from github_rename_utils.github_graphql_wrapper import initialise_endpoint
+from github_rename_utils.graphql_utils import initialise_endpoint
 from github_rename_utils.shared_ownership_utils import get_team_names, get_repo_names_for_team
 
 
