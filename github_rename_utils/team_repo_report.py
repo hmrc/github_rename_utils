@@ -2,7 +2,7 @@ from github_rename_utils.team_repo_report_utils import build_team_report_query, 
     build_team_report_variables, map_repository_data_list
 
 
-def get_repo_data(endpoint, org, team, include_read=False, include_archived=False):
+def get_team_repo_report(endpoint, org, team, include_read=False, include_archived=False):
 
     # we assume the unwanted branch name is 'master'
     unwanted_branch_name = "master"

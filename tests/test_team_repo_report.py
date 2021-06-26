@@ -131,7 +131,7 @@ def test_get_active_owned_repo_data_for_team():
 
     endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(endpoint, org, team_slug)
+    data = utils.get_team_repo_report(endpoint, org, team_slug)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived_no_read)
@@ -148,7 +148,7 @@ def test_get_repo_data_on_all_repos_for_team():
 
     endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(endpoint, org, team_slug, include_read=True, include_archived=True)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True, include_archived=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_all)
@@ -165,7 +165,7 @@ def test_get_repo_data_on_all_active_repos_for_team():
 
     endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(endpoint, org, team_slug, include_read=True)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived)
@@ -182,7 +182,7 @@ def test_get_repo_data_on_all_owned_repos_for_team():
 
     endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(endpoint, org, team_slug, include_archived=True)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, include_archived=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_read)
