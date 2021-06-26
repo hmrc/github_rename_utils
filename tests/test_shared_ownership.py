@@ -1,4 +1,5 @@
-from github_rename_utils.shared_ownership import get_shared_ownership_report
+from github_rename_utils.github_graphql_api import create_graphql_endpoint
+from github_rename_utils.shared_ownership_report import get_shared_ownership_report
 import responses
 
 
@@ -9,8 +10,8 @@ def test_get_ownership_ignores_expected_ignore_teams():
     admin_team_slug = 'my-admin-team'
 
     def custom_callback(request):
-        from tests.expected_queries import team_names_query, team_repo_name_query
-        from tests.mock_payloads import team_name_list, team_repo_owner_list, team_repo_owner_admin_list
+        from tests.mock_graphql_queries import team_names_query, team_repo_name_query
+        from tests.mock_graphql_payloads import team_name_list, team_repo_owner_list, team_repo_owner_admin_list
 
         if team_names_query(org) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
@@ -45,6 +46,7 @@ def test_get_ownership_ignores_expected_ignore_teams():
         'repo4': [admin_team_slug]
     }
 
-    actual_report = get_shared_ownership_report(token, org, ignored_teams)
+    endpoint = create_graphql_endpoint(token)
+    actual_report = get_shared_ownership_report(endpoint, org, ignored_teams)
 
     assert expected_shared_ownership_report == actual_report

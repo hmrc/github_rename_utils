@@ -1,7 +1,8 @@
 import os
 import json
 import github_rename_utils.team_repo_report as utils
-from github_rename_utils.graphql_utils import initialise_endpoint
+from github_rename_utils.github_graphql_api import create_graphql_endpoint
+
 
 def integration_test_can_get_repo_data():
     token = os.environ['GH_TOKEN']
@@ -11,7 +12,7 @@ def integration_test_can_get_repo_data():
     org = 'hmrc'
     team = 'ddcops'
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
     data = utils.get_repo_data(org, team, endpoint)
     print(data)
 

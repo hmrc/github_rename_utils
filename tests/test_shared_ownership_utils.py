@@ -1,7 +1,8 @@
-import github_rename_utils.shared_ownership_utils as report_utils
-from github_rename_utils.graphql_utils import initialise_endpoint
+import github_rename_utils.shared_ownership_report_utils as report_utils
+from github_rename_utils.github_graphql_api import create_graphql_endpoint
 import responses
 from unittest import TestCase
+
 
 token = '__dummy__'
 org = 'my-org'
@@ -12,8 +13,8 @@ repos_cursor = "fd3kle2jkKLfdsklswHTjk=="
 @responses.activate
 def test_get_team_names_for_org_single_page():
     def custom_callback(request):
-        from tests.expected_queries import team_names_query
-        from tests.mock_payloads import team_name_list
+        from tests.mock_graphql_queries import team_names_query
+        from tests.mock_graphql_payloads import team_name_list
 
         if team_names_query(org) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
@@ -31,7 +32,7 @@ def test_get_team_names_for_org_single_page():
 
     expected_team_name_list = ["my-team", "my-admin-team", "justice-league"]
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
     actual_list = report_utils.get_team_names(endpoint, org)
 
     TestCase().assertCountEqual(expected_team_name_list, actual_list)
@@ -39,8 +40,8 @@ def test_get_team_names_for_org_single_page():
 @responses.activate
 def test_get_team_names_for_org_multipage():
     def custom_callback(request):
-        from tests.expected_queries import team_names_query
-        from tests.mock_payloads import team_name_list_page_1, team_name_list_page_2
+        from tests.mock_graphql_queries import team_names_query
+        from tests.mock_graphql_payloads import team_name_list_page_1, team_name_list_page_2
 
         if team_names_query(org) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
@@ -63,7 +64,7 @@ def test_get_team_names_for_org_multipage():
 
     expected_team_name_list = ["my-team", "my-admin-team", "justice-league", "my-additional-team"]
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
     actual_list = report_utils.get_team_names(endpoint, org)
 
     TestCase().assertCountEqual(expected_team_name_list, actual_list)
@@ -71,8 +72,8 @@ def test_get_team_names_for_org_multipage():
 @responses.activate
 def test_get_repo_names_for_team_single_page():
     def custom_callback(request):
-        from tests.expected_queries import team_repo_name_query
-        from tests.mock_payloads import team_repo_owner_list
+        from tests.mock_graphql_queries import team_repo_name_query
+        from tests.mock_graphql_payloads import team_repo_owner_list
 
         if team_repo_name_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
@@ -90,7 +91,7 @@ def test_get_repo_names_for_team_single_page():
 
     expected_repo_name_list = ["repo1", "repo2", "repo3"]
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
     actual_list = report_utils.get_repo_names_for_team(endpoint, team_slug, org)
 
     TestCase().assertCountEqual(expected_repo_name_list, actual_list)
@@ -98,8 +99,8 @@ def test_get_repo_names_for_team_single_page():
 @responses.activate
 def test_get_repo_names_for_team_multipage():
     def custom_callback(request):
-        from tests.expected_queries import team_repo_name_query
-        from tests.mock_payloads import team_repo_owner_list_page_1, team_repo_owner_list_page_2
+        from tests.mock_graphql_queries import team_repo_name_query
+        from tests.mock_graphql_payloads import team_repo_owner_list_page_1, team_repo_owner_list_page_2
 
         if team_repo_name_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
@@ -122,7 +123,7 @@ def test_get_repo_names_for_team_multipage():
 
     expected_repo_name_list = ["repo1", "repo2", "repo3", "repo4"]
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
     actual_list = report_utils.get_repo_names_for_team(endpoint, team_slug, org)
 
     TestCase().assertCountEqual(expected_repo_name_list, actual_list)

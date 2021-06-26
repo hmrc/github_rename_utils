@@ -25,8 +25,8 @@ parser.add_argument('-n','--new-name', help='<Required> Set flag', required=True
 
 """
 import os
-from github_rename_utils.rest_utils import create_rest_client
-from github_rename_utils.rename import convert_repo
+from github_rename_utils.github_rest_api import create_rest_client
+from github_rename_utils.branch_rename import rename_default_branch
 from pprint import pprint
 
 desired = "main"
@@ -38,7 +38,7 @@ client = create_rest_client(token)
 report = []
 
 for repo_name in repos:
-    success, repo_report = convert_repo(client, org, repo_name, desired)
+    success, repo_report = rename_default_branch(client, org, repo_name, desired)
     report.extend(repo_report)
     pprint(success)
 

@@ -1,5 +1,5 @@
 import github_rename_utils.team_repo_report as utils
-from github_rename_utils.graphql_utils import initialise_endpoint
+from github_rename_utils.github_graphql_api import create_graphql_endpoint
 import responses
 from unittest import TestCase
 
@@ -104,8 +104,8 @@ def compare_response_vs_expected(data, expected):
     test_util.assertCountEqual(expected, data)
 
 def request_callback(request):
-        from tests.expected_queries import team_repos_query
-        from tests.mock_payloads import repo_list_page_1, repo_list_page_2
+        from tests.mock_graphql_queries import team_repos_query
+        from tests.mock_graphql_payloads import repo_list_page_1, repo_list_page_2
 
         if team_repos_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
@@ -129,9 +129,9 @@ def test_get_active_owned_repo_data_for_team():
         content_type='application/json',
     )
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(org, team_slug, endpoint)
+    data = utils.get_repo_data(endpoint, org, team_slug)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived_no_read)
@@ -146,9 +146,9 @@ def test_get_repo_data_on_all_repos_for_team():
         content_type='application/json',
     )
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(org, team_slug, endpoint, include_read=True, include_archived=True)
+    data = utils.get_repo_data(endpoint, org, team_slug, include_read=True, include_archived=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_all)
@@ -163,9 +163,9 @@ def test_get_repo_data_on_all_active_repos_for_team():
         content_type='application/json',
     )
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(org, team_slug, endpoint, include_read=True)
+    data = utils.get_repo_data(endpoint, org, team_slug, include_read=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived)
@@ -180,9 +180,9 @@ def test_get_repo_data_on_all_owned_repos_for_team():
         content_type='application/json',
     )
 
-    endpoint = initialise_endpoint(token)
+    endpoint = create_graphql_endpoint(token)
 
-    data = utils.get_repo_data(org, team_slug, endpoint, include_archived=True)
+    data = utils.get_repo_data(endpoint, org, team_slug, include_archived=True)
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_read)

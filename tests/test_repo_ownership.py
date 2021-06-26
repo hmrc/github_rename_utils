@@ -1,6 +1,8 @@
 import os
 import json
-import github_rename_utils.shared_ownership as utils
+import github_rename_utils.shared_ownership_report as utils
+from github_rename_utils.github_graphql_api import create_graphql_endpoint
+
 
 def integration_test_can_get_ownership_report():
     # integration test! may use 250 points against rate limiting on graphql endpoint
@@ -11,7 +13,8 @@ def integration_test_can_get_ownership_report():
     org = 'hmrc'
     ignored_teams = ['my-admin-team']
 
-    report = utils.get_shared_ownership_report(token, org, ignored_teams)
+    endpoint = create_graphql_endpoint(token)
+    report = utils.get_shared_ownership_report(endpoint, org, ignored_teams)
     print(report)
 
     assert len(report) > 0

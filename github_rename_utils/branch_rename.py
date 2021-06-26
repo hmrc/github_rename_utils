@@ -1,10 +1,11 @@
-from github_rename_utils.github_requests import copy_branch_protection, \
-    delete_old_branch_protection, delete_branch
-from github_rename_utils.rename_utils import get_repository, \
+from github_rename_utils.branch_rename_utils import get_repository, \
     copy_branch, update_pull_requests, \
-    get_webhook_report, update_default_branch
+    get_webhook_report, update_default_branch, \
+    copy_branch_protection, delete_old_branch_protection, \
+    delete_branch
 
-def convert_repo(client, org_name, repo_name, desired_branch_name):
+
+def rename_default_branch(client, org_name, repo_name, desired_branch_name):
     report_lines = []
     report_lines.append(f"Converting {repo_name} to default branch name {desired_branch_name}")
     repo = get_repository(client, org_name, repo_name)

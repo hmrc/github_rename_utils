@@ -2,17 +2,19 @@ import json
 import pytest
 import responses
 
-from github_rename_utils.rest_utils import create_rest_client
-from github_rename_utils.github_requests import copy_branch_protection, \
-    get_branch_protection, delete_branch, delete_old_branch_protection
-from github_rename_utils.rename_utils import get_repository, copy_branch, \
-    update_pull_requests, update_default_branch
+from github_rename_utils.github_rest_api import create_rest_client
+from github_rename_utils.branch_rename_utils import get_repository, \
+    copy_branch, update_pull_requests, \
+    update_default_branch, copy_branch_protection, \
+    get_branch_protection, delete_old_branch_protection, \
+    delete_branch
 from tests.mock_rest_payloads import my_repo, my_repo_search_result, \
     org_result, my_repo_branch, my_new_ref, \
     prs_body, pr_body, branch_protection
 
+
 # Tests that call in gh_rerequests (responses)
-# Tests that call methods in rename_utils (mockclient)
+# Tests that call methods in branch_rename_utils (mockclient)
 
 class StubClient():
 
