@@ -14,11 +14,11 @@ repos_cursor = "fd3kle2jkKLfdsklswHTjk=="
 def test_get_team_names_for_org_single_page():
     def custom_callback(request):
         from tests.mock_graphql_queries import team_names_query
-        from tests.mock_graphql_payloads import team_name_list
+        from tests.mock_graphql_payloads import team_name_list_single_page
 
         if team_names_query(org) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
-            return (200, headers, team_name_list)
+            return (200, headers, team_name_list_single_page)
         else:
             print(request.body)
             raise Exception('Unexpected payload received')
@@ -41,15 +41,15 @@ def test_get_team_names_for_org_single_page():
 def test_get_team_names_for_org_multipage():
     def custom_callback(request):
         from tests.mock_graphql_queries import team_names_query
-        from tests.mock_graphql_payloads import team_name_list_page_1, team_name_list_page_2
+        from tests.mock_graphql_payloads import team_name_list_multi_page_1, team_name_list_multi_page_2
 
         if team_names_query(org) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
-            return (200, headers, team_name_list_page_1)
+            return (200, headers, team_name_list_multi_page_1)
 
         elif team_names_query(org, teams_cursor) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c14'}
-            return (200, headers, team_name_list_page_2)
+            return (200, headers, team_name_list_multi_page_2)
 
         else:
             print(request.body)
@@ -73,11 +73,11 @@ def test_get_team_names_for_org_multipage():
 def test_get_repo_names_for_team_single_page():
     def custom_callback(request):
         from tests.mock_graphql_queries import team_repo_name_query
-        from tests.mock_graphql_payloads import team_repo_owner_list
+        from tests.mock_graphql_payloads import team_repo_list_single_page
 
         if team_repo_name_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
-            return (200, headers, team_repo_owner_list)
+            return (200, headers, team_repo_list_single_page)
         else:
             print(request.body)
             raise Exception('Unexpected payload received')
@@ -100,15 +100,15 @@ def test_get_repo_names_for_team_single_page():
 def test_get_repo_names_for_team_multipage():
     def custom_callback(request):
         from tests.mock_graphql_queries import team_repo_name_query
-        from tests.mock_graphql_payloads import team_repo_owner_list_page_1, team_repo_owner_list_page_2
+        from tests.mock_graphql_payloads import team_repo_list_multi_page_1, team_repo_list_multi_page_2
 
         if team_repo_name_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
-            return (200, headers, team_repo_owner_list_page_1)
+            return (200, headers, team_repo_list_multi_page_1)
 
         elif team_repo_name_query(org, team_slug, repos_cursor) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c14'}
-            return (200, headers, team_repo_owner_list_page_2)
+            return (200, headers, team_repo_list_multi_page_2)
 
         else:
             print(request.body)

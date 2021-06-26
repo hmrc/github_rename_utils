@@ -105,15 +105,15 @@ def compare_response_vs_expected(data, expected):
 
 def request_callback(request):
         from tests.mock_graphql_queries import team_repos_query
-        from tests.mock_graphql_payloads import repo_list_page_1, repo_list_page_2
+        from tests.mock_graphql_payloads import repo_list_multi_page_1, repo_list_multi_page_2
 
         if team_repos_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
-            return (200, headers, repo_list_page_1)
+            return (200, headers, repo_list_multi_page_1)
         
         elif team_repos_query(org, team_slug, repos_cursor) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c14'}
-            return (200, headers, repo_list_page_2)
+            return (200, headers, repo_list_multi_page_2)
 
         else:
             print(request.body)

@@ -1,4 +1,4 @@
-repo_list_page_1 = """
+repo_list_multi_page_1 = """
 {
   "data": {
     "organization": {
@@ -127,7 +127,7 @@ repo_list_page_1 = """
   }
 }
 """
-repo_list_page_2 = """
+repo_list_multi_page_2 = """
 {
     "data": {
       "organization": {
@@ -284,7 +284,7 @@ repo_list_page_2 = """
   }
 """
 
-team_name_list = """
+team_name_list_single_page = """
 {
     "data": {
       "rateLimit": {
@@ -317,7 +317,7 @@ team_name_list = """
     }
   }
 """
-team_name_list_page_1="""
+team_name_list_multi_page_1="""
 {
     "data": {
       "rateLimit": {
@@ -350,7 +350,7 @@ team_name_list_page_1="""
     }
   }
 """
-team_name_list_page_2 = """
+team_name_list_multi_page_2 = """
 {
     "data": {
       "rateLimit": {
@@ -378,7 +378,7 @@ team_name_list_page_2 = """
   }
 """
 
-team_repo_owner_list = """
+team_repo_list_single_page = """
 {
   "data": {
     "organization": {
@@ -421,7 +421,7 @@ team_repo_owner_list = """
   }
 }
 """
-team_repo_owner_admin_list = """
+admin_team_repo_list_single_page = """
 {
   "data": {
     "organization": {
@@ -471,7 +471,7 @@ team_repo_owner_admin_list = """
   }
 }
 """
-team_repo_owner_list_page_1 = """
+team_repo_list_multi_page_1 = """
 {
   "data": {
     "organization": {
@@ -514,7 +514,7 @@ team_repo_owner_list_page_1 = """
   }
 }
 """
-team_repo_owner_list_page_2 = """
+team_repo_list_multi_page_2 = """
 {
   "data": {
     "organization": {
