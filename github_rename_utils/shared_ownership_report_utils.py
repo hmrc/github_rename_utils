@@ -1,7 +1,7 @@
 from sgqlc.operation import Operation
 from sgqlc.types import Variable, non_null
 from github_rename_utils.schema import github_schema as schema
-from github_rename_utils.github_graphql_api import query_add_rate_limiting_data, valid_permissions
+from github_rename_utils.github_graphql_api import valid_permissions
 
 
 def build_team_name_query(first_page=False):
@@ -11,7 +11,6 @@ def build_team_name_query(first_page=False):
         variables = {'org': non_null(str), 'teamsCursor': str }
     
     op = Operation(schema.Query, name='Teams', variables=variables)
-    query_add_rate_limiting_data(op)
     org = op.organization(login=Variable('org'))
     org.name()
     if first_page:
@@ -29,7 +28,6 @@ def build_team_repo_name_query():
     variables= {'org': non_null(str), 'teamSlug': non_null(str),'reposCursor': str }
     
     op = Operation(schema.Query, name='Per_Team_Repos', variables=variables)
-    query_add_rate_limiting_data(op)
 
     org = op.organization(login=Variable('org'))
     org.name()
@@ -52,17 +50,15 @@ def build_team_repo_name_variables(org, team, repos_cursor):
 def build_team_name_variables(org, teams_cursor):
     return {'org': org, 'teamsCursor': teams_cursor}
 
-def map_team_name_data(intepreted_response):
-    data = [team.slug for team in
-        intepreted_response.organization.teams.nodes]
-    return data
+def map_team_name_data(data):
+    return [team.slug for team in data.organization.teams.nodes]
 
-def map_repo_name_data(interpreted_response, include_read=False):
+def map_repo_name_data(data, include_read=False):
     expected_permissions = valid_permissions
     if not include_read:
         expected_permissions = [permission for permission in valid_permissions if permission not in ['READ', 'TRIAGE']]
     
-    repo_names = [edge.node.name for edge in interpreted_response.organization.team.repositories.edges
+    repo_names = [edge.node.name for edge in data.organization.team.repositories.edges
                                         if edge.permission in expected_permissions and (not edge.node.is_archived)]
     return repo_names
 
@@ -77,17 +73,15 @@ def get_team_names(endpoint, org):
     op = build_team_name_query()
 
     data = endpoint(op_first_page, team_variables)
-    interpreted_response = (op_first_page + data)
 
-    while (interpreted_response.organization.teams.page_info.has_next_page):
-        team_data.extend(map_team_name_data(interpreted_response))
-        page_cursor = interpreted_response.organization.teams.page_info.end_cursor
+    while (data.organization.teams.page_info.has_next_page):
+        team_data.extend(map_team_name_data(data))
+        page_cursor = data.organization.teams.page_info.end_cursor
         team_variables = build_team_name_variables(org, page_cursor)
         data = endpoint(op, team_variables)
-        interpreted_response = (op + data)
     
     # last data batch
-    team_data.extend(map_team_name_data(interpreted_response))
+    team_data.extend(map_team_name_data(data))
 
     return team_data
 
@@ -102,16 +96,14 @@ def get_repo_names_for_team(endpoint, team_slug, org):
 
     op = build_team_repo_name_query()
     data = endpoint(op, repo_list_variables)
-    interpreted_response = (op + data)
 
-    while (interpreted_response.organization.team.repositories.page_info.has_next_page):
-        repos.extend(map_repo_name_data(interpreted_response))
-        page_cursor = interpreted_response.organization.team.repositories.page_info.end_cursor
+    while (data.organization.team.repositories.page_info.has_next_page):
+        repos.extend(map_repo_name_data(data))
+        page_cursor = data.organization.team.repositories.page_info.end_cursor
         repo_list_variables = build_team_repo_name_variables(org, team_slug, page_cursor)
         data = endpoint(op, repo_list_variables)
-        interpreted_response = (op + data)
     
     # last data batch
-    repos.extend(map_repo_name_data(interpreted_response))
+    repos.extend(map_repo_name_data(data))
 
     return repos

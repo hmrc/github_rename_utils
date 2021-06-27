@@ -14,15 +14,13 @@ def get_team_repo_report(endpoint, org, team, include_read=False, include_archiv
     variables = build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_name)
     data = endpoint(op, variables)
 
-    interpreted_response = (op + data)
-    while (interpreted_response.organization.team.repositories.page_info.has_next_page):
-        mapped_repo_list.extend(map_repository_data_list(interpreted_response, include_read=include_read, include_archived=include_archived))
-        repo_page_cursor = interpreted_response.organization.team.repositories.page_info.end_cursor
+    while (data.organization.team.repositories.page_info.has_next_page):
+        mapped_repo_list.extend(map_repository_data_list(data, include_read=include_read, include_archived=include_archived))
+        repo_page_cursor = data.organization.team.repositories.page_info.end_cursor
         variables = build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_name)
         data = endpoint(op, variables)
-        interpreted_response = (op + data)
     
     # last data batch
-    mapped_repo_list.extend(map_repository_data_list(interpreted_response, include_read=include_read, include_archived=include_archived))
+    mapped_repo_list.extend(map_repository_data_list(data, include_read=include_read, include_archived=include_archived))
 
     return mapped_repo_list

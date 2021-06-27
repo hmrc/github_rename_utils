@@ -1,7 +1,7 @@
 from sgqlc.operation import Operation
 from sgqlc.types import Variable, non_null
 from github_rename_utils.schema import github_schema as schema
-from github_rename_utils.github_graphql_api import query_add_rate_limiting_data, valid_permissions
+from github_rename_utils.github_graphql_api import valid_permissions
 
 
 def build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_name):
@@ -11,7 +11,6 @@ def build_team_report_query():
     variables= {'teamSlug': non_null(str), 'org': non_null(str), 'reposCursor': str, 'unwantedBranchName': non_null(str), 'unwantedBranchQualifiedName': non_null(str)}
     
     op = Operation(schema.Query, name='Team_Repos', variables=variables)
-    query_add_rate_limiting_data(op)
 
     org = op.organization(login=Variable('org'))
     org.id()
