@@ -1,5 +1,5 @@
 from datetime import datetime
-from github_rename_utils.rate_limit import InMemoryRateLimitStore
+from github_rename_utils.github_rate_limit import InMemoryRateLimitStore
 
 def test_in_memory_rate_limit_store_can_put_rate_limits():
     rate_limits = [
@@ -20,19 +20,16 @@ def test_in_memory_rate_limit_store_can_put_rate_limits():
         }
     ]
 
-    actual_values = None
-    def callback(values):
-        nonlocal actual_values
-        actual_values = values
+    store = InMemoryRateLimitStore()
 
-    with InMemoryRateLimitStore(callback) as store:
-        for rate_limit in rate_limits:
-            store.put(
-                rate_limit["resource"],
-                rate_limit["cost"],
-                rate_limit["reset_at"]
-            )
+    for rate_limit in rate_limits:
+        store.put(
+            rate_limit["resource"],
+            rate_limit["cost"],
+            rate_limit["reset_at"]
+        )
 
+    actual_values = store.values
     expected_values = {
         "resource-1": {
             "cost": 8,

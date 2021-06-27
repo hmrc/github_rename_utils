@@ -1,6 +1,6 @@
 import os
-from github_rename_utils.rate_limit import InMemoryRateLimitStore
 from github_rename_utils.github_graphql_api import create_graphql_endpoint
+from github_rename_utils.github_rate_limit import InMemoryRateLimitStore, monitor_graphql_endpoint
 from github_rename_utils.shared_ownership_report import get_shared_ownership_report
 from pprint import pprint
 
@@ -10,11 +10,11 @@ ignored_team_names = ["my-admin-team"]
 
 token = os.getenv("GH_TOKEN")
 
-def rate_limit_callback(values):
-  pprint(values)
+endpoint = create_graphql_endpoint(token)
+rate_limit_store = InMemoryRateLimitStore()
+monitored_endpoint = monitor_graphql_endpoint(endpoint, rate_limit_store)
 
-with InMemoryRateLimitStore(rate_limit_callback) as rate_limit_store:
-  endpoint = create_graphql_endpoint(token)
+report = get_shared_ownership_report(monitored_endpoint, org_name, ignored_team_names)
 
-  report = get_shared_ownership_report(endpoint, org_name, ignored_team_names)
-  pprint(report)
+pprint(report)
+pprint(rate_limit_store.values)
