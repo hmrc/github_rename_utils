@@ -1,6 +1,7 @@
 from datetime import datetime
 from github_rename_utils.github_rate_limit import InMemoryRateLimitStore
 
+
 def test_in_memory_rate_limit_store_can_put_rate_limits():
     rate_limits = [
         {
