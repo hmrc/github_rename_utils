@@ -1,6 +1,6 @@
 import os
-from github_rename_utils.github_rest_api import rest_client
-from github_rename_utils.github_rate_limit import InMemoryRateLimitStore, monitor_rest_client
+from github_rename_utils.github_rest_api import rest_client, monitor_rest_client
+from github_rename_utils.github_rate_limit import InMemoryRateLimitStore
 from github_rename_utils.branch_rename import rename_default_branch
 from pprint import pprint
 
