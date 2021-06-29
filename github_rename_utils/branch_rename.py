@@ -1,13 +1,11 @@
-import os
-from pprint import pprint
-from github_rename_utils.github_wrapper import get_github_client
-from github_rename_utils.github_requests import copy_branch_protection, \
-    delete_old_branch_protection, delete_branch
-from github_rename_utils.rename_utils import get_repository, is_repository_shared, \
+from github_rename_utils.branch_rename_utils import get_repository, \
     copy_branch, update_pull_requests, \
-    get_webhook_report, update_default_branch
+    get_webhook_report, update_default_branch, \
+    copy_branch_protection, delete_old_branch_protection, \
+    delete_branch
 
-def convert_repo(client, org_name, repo_name, desired_branch_name):
+
+def rename_default_branch(client, org_name, repo_name, desired_branch_name):
     report_lines = []
     report_lines.append(f"Converting {repo_name} to default branch name {desired_branch_name}")
     repo = get_repository(client, org_name, repo_name)
@@ -22,7 +20,7 @@ def convert_repo(client, org_name, repo_name, desired_branch_name):
     report_lines.append("Webhooks attached to repo:")
     report_lines.extend(targets)
 
-    new_branch = copy_branch(repo, repo.default_branch, desired_branch_name)
+    copy_branch(repo, repo.default_branch, desired_branch_name)
     attempted,failed = update_pull_requests(repo, repo.default_branch, desired_branch_name)
     report_lines.append(f"{attempted} pull request rebases attempted, {failed} failed.")
 
@@ -32,10 +30,10 @@ def convert_repo(client, org_name, repo_name, desired_branch_name):
         return False,report_lines
     else:
         report_lines.append("Branch protection copied")
-        updated_repo = update_default_branch(client, org_name, repo, desired_branch_name)
+        update_default_branch(client, org_name, repo, desired_branch_name)
         report_lines.append(f"New default branch set to {desired_branch_name}")
         report_lines.append(f"Deleting protection on old default branch {old_branch_name}")
-        update_success = delete_old_branch_protection(client, repo.name, old_branch_name)
+        delete_old_branch_protection(client, repo.name, old_branch_name)
         report_lines.append(f"Deleting old default branch {old_branch_name}")
         delete_success = delete_branch(client, repo_name, old_branch_name)
         if not delete_success:

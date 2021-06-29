@@ -1,5 +1,6 @@
 from unittest.mock import Mock
 
+
 class StubClient():
 
     org_name = 'dummy_org'
@@ -26,13 +27,13 @@ def test_skip_existing_desired_default_branch(monkeypatch):
         return StubRepoSameBranch(expected_branch)
 
     client = StubClient()
-    import github_rename_utils.rename as rename
+    import github_rename_utils.branch_rename as rename
     monkeypatch.delattr("requests.sessions.Session.request")
     with monkeypatch.context() as m:
         # monkey patch out get_repository call in rename, this returns a simple object with only one property (default_branch)
         m.setattr(rename, 'get_repository', mock_get_repo)
 
-        success, report = rename.convert_repo(client, 'dummy', 'repo', "main")
+        success, report = rename.rename_default_branch(client, 'dummy', 'repo', "main")
 
         assert success == True
         assert expected_report in report
