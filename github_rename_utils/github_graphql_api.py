@@ -1,16 +1,17 @@
 from sgqlc.endpoint.requests import RequestsEndpoint
 
 
-class GithubGraphqlEndpoint:
+class GithubGraphqlEndpoint(RequestsEndpoint):
     def __init__(self, token, session=None, rate_limit_store=None):
         url = 'https://api.github.com/graphql'
-        self.base_headers = { 'Authorization': f'bearer {token}' }
 
-        self.endpoint = RequestsEndpoint(url, session=session)
-        self.session = self.endpoint.session
+        super(GithubGraphqlEndpoint, self).__init__(url, session=session)
+
+        self.base_headers = { 'Authorization': f'bearer {token}' }
+        self.session = self.session
         self.rate_limit_store = rate_limit_store
 
-    def __call__(self, op, vars):
+    def __call__(self, op, vars, extra_headers={}, **kwargs):
         if self.rate_limit_store is not None:
             rate_limit = op.rate_limit()
             rate_limit.limit()
@@ -18,7 +19,12 @@ class GithubGraphqlEndpoint:
             rate_limit.remaining()
             rate_limit.reset_at()
 
-        data = self.endpoint(op, vars, extra_headers=self.base_headers)
+        headers = {
+            **self.base_headers,
+            **extra_headers
+        }
+
+        data = super(GithubGraphqlEndpoint, self).__call__(op, vars, extra_headers=headers, **kwargs)
         interpreted_data = (op + data)
 
         if self.rate_limit_store is not None:
