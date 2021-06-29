@@ -57,3 +57,5 @@ class GithubRestClient(GitHub):
         wrapped_session = GithubSessionWrapper(session, rate_limit_store=rate_limit_store)
 
         super(GithubRestClient, self).__init__(token=token, session=wrapped_session)
+
+        self.rate_limit_store = rate_limit_store
