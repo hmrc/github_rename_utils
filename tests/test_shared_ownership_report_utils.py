@@ -1,5 +1,5 @@
 import github_rename_utils.shared_ownership_report_utils as report_utils
-from github_rename_utils.github_graphql_api import graphql_endpoint
+from github_rename_utils.github_graphql_api import GithubGraphqlEndpoint
 import responses
 from unittest import TestCase
 
@@ -32,7 +32,7 @@ def test_get_team_names_for_org_single_page():
 
     expected_team_name_list = ["my-team", "my-admin-team", "justice-league"]
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
     actual_list = report_utils.get_team_names(endpoint, org)
 
     TestCase().assertCountEqual(expected_team_name_list, actual_list)
@@ -64,7 +64,7 @@ def test_get_team_names_for_org_multipage():
 
     expected_team_name_list = ["my-team", "my-admin-team", "justice-league", "my-additional-team"]
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
     actual_list = report_utils.get_team_names(endpoint, org)
 
     TestCase().assertCountEqual(expected_team_name_list, actual_list)
@@ -91,7 +91,7 @@ def test_get_repo_names_for_team_single_page():
 
     expected_repo_name_list = ["repo1", "repo2", "repo3"]
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
     actual_list = report_utils.get_repo_names_for_team(endpoint, team_slug, org)
 
     TestCase().assertCountEqual(expected_repo_name_list, actual_list)
@@ -123,7 +123,7 @@ def test_get_repo_names_for_team_multipage():
 
     expected_repo_name_list = ["repo1", "repo2", "repo3", "repo4"]
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
     actual_list = report_utils.get_repo_names_for_team(endpoint, team_slug, org)
 
     TestCase().assertCountEqual(expected_repo_name_list, actual_list)

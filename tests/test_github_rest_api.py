@@ -1,7 +1,8 @@
 import responses
 from unittest.mock import MagicMock
-from github_rename_utils.github_rest_api import rest_client, monitor_rest_client
+from github_rename_utils.github_rest_api import GithubRestClient
 from datetime import datetime
+
 
 @responses.activate
 def test_rest_client_can_be_monitored():
@@ -9,9 +10,8 @@ def test_rest_client_can_be_monitored():
     resource = "test"
     reset_at = 1624874400
 
-    client = rest_client(token)
     store = MagicMock()
-    monitored_client = monitor_rest_client(client, store)
+    client = GithubRestClient(token, rate_limit_store=store)
 
     responses.add(responses.GET, "https://api.github.com/test",
         body=b'{ "message": "success" }',
@@ -23,8 +23,8 @@ def test_rest_client_can_be_monitored():
         status=200
     )
 
-    url = monitored_client.session.build_url("test")
-    monitored_client.session.get(url)
+    url = client.session.build_url("test")
+    client.session.get(url)
 
     store.put.assert_called_with(
         "test",

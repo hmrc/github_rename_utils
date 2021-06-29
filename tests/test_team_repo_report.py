@@ -1,5 +1,5 @@
 import github_rename_utils.team_repo_report as utils
-from github_rename_utils.github_graphql_api import graphql_endpoint
+from github_rename_utils.github_graphql_api import GithubGraphqlEndpoint
 import responses
 from unittest import TestCase
 
@@ -129,7 +129,7 @@ def test_get_active_owned_repo_data_for_team():
         content_type='application/json',
     )
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
 
     data = utils.get_team_repo_report(endpoint, org, team_slug)
 
@@ -146,7 +146,7 @@ def test_get_repo_data_on_all_repos_for_team():
         content_type='application/json',
     )
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
 
     data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True, include_archived=True)
 
@@ -163,7 +163,7 @@ def test_get_repo_data_on_all_active_repos_for_team():
         content_type='application/json',
     )
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
 
     data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True)
 
@@ -180,7 +180,7 @@ def test_get_repo_data_on_all_owned_repos_for_team():
         content_type='application/json',
     )
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
 
     data = utils.get_team_repo_report(endpoint, org, team_slug, include_archived=True)
 

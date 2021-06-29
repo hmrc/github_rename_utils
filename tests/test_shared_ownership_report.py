@@ -1,4 +1,4 @@
-from github_rename_utils.github_graphql_api import graphql_endpoint
+from github_rename_utils.github_graphql_api import GithubGraphqlEndpoint
 from github_rename_utils.shared_ownership_report import get_shared_ownership_report
 import responses
 
@@ -46,7 +46,7 @@ def test_get_ownership_ignores_expected_ignore_teams():
         'repo4': [admin_team_slug]
     }
 
-    endpoint = graphql_endpoint(token)
+    endpoint = GithubGraphqlEndpoint(token)
     actual_report = get_shared_ownership_report(endpoint, org, ignored_teams)
 
     assert expected_shared_ownership_report == actual_report

@@ -17,10 +17,10 @@ There is an api call which github has provided to make this easier but it doesn'
 The following example shows how to rename a branch and generate the associated report:
 
 ```python
-from github_rename_utils.github_rest_api import rest_client
+from github_rename_utils.github_rest_api import GithubRestClient
 from github_rename_utils.branch_rename import rename_default_branch
 
-client = rest_client("my-token")
+client = GithubRestClient("my-token")
 success, report = rename_default_branch(client, "my-org", "my-repo", "new-default-branch")
 ```
 
@@ -29,10 +29,10 @@ success, report = rename_default_branch(client, "my-org", "my-repo", "new-defaul
 The following example shows how to generate a report showing the ownership of repositories:
 
 ```python
-from github_rename_utils.github_graphql_api import graphql_endpoint
+from github_rename_utils.github_graphql_api import GithubGraphqlEndpoint
 from github_rename_utils.shared_ownership_report import get_shared_ownership_report
 
-endpoint = graphql_endpoint("my-token")
+endpoint = GithubGraphqlEndpoint("my-token")
 report = get_shared_ownership_report(endpoint, "my-org", ["my-ignored-team"])
 ```
 
@@ -41,10 +41,10 @@ report = get_shared_ownership_report(endpoint, "my-org", ["my-ignored-team"])
 The following example shows how to generate a report of team repositories:
 
 ```python
-from github_rename_utils.github_graphql_api import graphql_endpoint
+from github_rename_utils.github_graphql_api import GithubGraphqlEndpoint
 from github_rename_utils.team_repo_report import get_team_repo_report
 
-endpoint = graphql_endpoint("my-token")
+endpoint = GithubGraphqlEndpoint("my-token")
 report = get_team_repo_report(endpoint, "my-org", "my-team")
 ```
 
@@ -53,11 +53,11 @@ report = get_team_repo_report(endpoint, "my-org", "my-team")
 Monitoring of the Github API rate limits can be enabled if required:
 
 ```python
-from github_rename_utils.github_rest_api import rest_client, monitor_rest_client
+from github_rename_utils.github_rest_api import GithubRestClient
+from github_rename_utils.github_rate_limit import InMemoryRateLimitStore
 
-client = rest_client("my-token")
 rate_limit_store = InMemoryRateLimitStore()
-monitored_client = monitor_rest_client(client, rate_limit_store)
+client = GithubRestClient("my-token", rate_limit_store=rate_limit_store)
 ```
 
 The module provides the `InMemoryRateLimitStore` but an alternative implementation for the store can be used. For example, you may want a store that submits metrics based on the rate limiting data to your chosen monitoring stack.
