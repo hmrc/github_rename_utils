@@ -1,5 +1,7 @@
 # Github Rename Utils
 
+[![Brought to you by TeamDDCOps](https://img.shields.io/badge/MDTP-DDCOps-40D9C0?style=flat&labelColor=000000&logo=gov.uk)](https://confluence.tools.tax.service.gov.uk/display/Tools) **owned with pride by DDCOps**
+
 ## Why rename?
 
 The default name for a branch has, until recently, been 'master' which is a word deemed inappropriate for use in this context. Changing 5k repositories overnight is not a manual task so this utility code is provided to help.
