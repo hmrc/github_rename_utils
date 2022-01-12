@@ -5,8 +5,8 @@ from unittest import TestCase
 
 
 '''
-# in integration and production usage we would normally recommend that token is loaded 
-# from an enironment variable for security
+# in integration and production usage we would normally recommend that token is loaded
+# from an environment variable for security
 # e.g. token = os.environ.get('GH_TOKEN', '')
 '''
 token = 'dummy_token'
@@ -18,27 +18,27 @@ repos_cursor = 'fd3kle2jkKLfdsklswHTjk=='
 expected_repos_all = [
     {
         "name": "repo1",
-        "default_branch": "master",
+        "default_branch": "old-branch",
         "open_prs": 8,
         "default_branch_protection": True,
         "default_branch_protection_checks" : ['some-check-pr-builder'],
-        "old_term_branch": "master"
+        "old_term_branch": "old-branch"
     },
     {
         "name": "repo2",
-        "default_branch": "master",
+        "default_branch": "old-branch",
         "open_prs": 4,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
-        "old_term_branch": "master"
+        "old_term_branch": "old-branch"
     },
     {
         "name": "repo3",
-        "default_branch": "master",
+        "default_branch": "old-branch",
         "open_prs": 4,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
-        "old_term_branch": "master"
+        "old_term_branch": "old-branch"
     },
     {
         "name": "repo-fhddjksfhk",
@@ -58,11 +58,11 @@ expected_repos_all = [
     },
     {
         "name": "repo-thjrecvix",
-        "default_branch": "master",
+        "default_branch": "old-branch",
         "open_prs": 0,
         "default_branch_protection": True,
         "default_branch_protection_checks" : [],
-        "old_term_branch": "master"
+        "old_term_branch": "old-branch"
     },
     {
         "name": "repo-fdhiob",
@@ -110,7 +110,7 @@ def request_callback(request):
         if team_repos_query(org, team_slug) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c13'}
             return (200, headers, repo_list_multi_page_1)
-        
+
         elif team_repos_query(org, team_slug, repos_cursor) == request.body:
             headers = {'request-id': '728d329e-0e86-11e4-a748-0c84dc037c14'}
             return (200, headers, repo_list_multi_page_2)
@@ -131,14 +131,14 @@ def test_get_active_owned_repo_data_for_team():
 
     endpoint = GithubGraphqlEndpoint(token)
 
-    data = utils.get_team_repo_report(endpoint, org, team_slug)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, unwanted_branch_name='old-branch')
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived_no_read)
 
 @responses.activate
 def test_get_repo_data_on_all_repos_for_team():
-    
+
     responses.add_callback(
         responses.POST,
         'https://api.github.com/graphql',
@@ -148,14 +148,14 @@ def test_get_repo_data_on_all_repos_for_team():
 
     endpoint = GithubGraphqlEndpoint(token)
 
-    data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True, include_archived=True)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True, include_archived=True, unwanted_branch_name='old-branch')
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_all)
-    
+
 @responses.activate
 def test_get_repo_data_on_all_active_repos_for_team():
-    
+
     responses.add_callback(
         responses.POST,
         'https://api.github.com/graphql',
@@ -165,14 +165,14 @@ def test_get_repo_data_on_all_active_repos_for_team():
 
     endpoint = GithubGraphqlEndpoint(token)
 
-    data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, include_read=True, unwanted_branch_name='old-branch')
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_archived)
 
 @responses.activate
 def test_get_repo_data_on_all_owned_repos_for_team():
-    
+
     responses.add_callback(
         responses.POST,
         'https://api.github.com/graphql',
@@ -182,7 +182,7 @@ def test_get_repo_data_on_all_owned_repos_for_team():
 
     endpoint = GithubGraphqlEndpoint(token)
 
-    data = utils.get_team_repo_report(endpoint, org, team_slug, include_archived=True)
+    data = utils.get_team_repo_report(endpoint, org, team_slug, include_archived=True, unwanted_branch_name='old-branch')
 
     assert data is not None
     compare_response_vs_expected(data, expected_repos_no_read)

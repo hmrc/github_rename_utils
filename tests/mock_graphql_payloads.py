@@ -21,7 +21,7 @@ repo_list_multi_page_1 = """
                 "name": "repo1",
                 "defaultBranchRef": {
                   "id": "fhddjksfhdfhdsfhhjew3RENCKCIDSHFHDdjksfhdfhd",
-                  "name": "master"
+                  "name": "old-branch"
                 },
                 "branchProtectionRules": {
                   "edges": [
@@ -31,7 +31,7 @@ repo_list_multi_page_1 = """
                           "totalCount": 1,
                           "nodes": [
                             {
-                              "name": "master"
+                              "name": "old-branch"
                             }
                           ]
                         },
@@ -46,7 +46,7 @@ repo_list_multi_page_1 = """
                   "totalCount": 8
                 },
                 "ref": {
-                  "name": "master"
+                  "name": "old-branch"
                 }
               }
             },
@@ -58,7 +58,7 @@ repo_list_multi_page_1 = """
                 "name": "repo2",
                 "defaultBranchRef": {
                   "id": "fdjksfjdkfjdklsjfdklsjfkdlsfjkldsfjdksllfdff",
-                  "name": "master"
+                  "name": "old-branch"
                 },
                 "branchProtectionRules": {
                   "edges": [
@@ -68,7 +68,7 @@ repo_list_multi_page_1 = """
                           "totalCount": 1,
                           "nodes": [
                             {
-                              "name": "master"
+                              "name": "old-branch"
                             }
                           ]
                         },
@@ -81,7 +81,7 @@ repo_list_multi_page_1 = """
                   "totalCount": 4
                 },
                 "ref": {
-                  "name": "master"
+                  "name": "old-branch"
                 }
               }
             },
@@ -93,7 +93,7 @@ repo_list_multi_page_1 = """
                 "name": "repo3",
                 "defaultBranchRef": {
                   "id": "fdjksfjdkfjdklsjfdklsjfkdlsfjkldsfjdksllfdff",
-                  "name": "master"
+                  "name": "old-branch"
                 },
                 "branchProtectionRules": {
                   "edges": [
@@ -103,7 +103,7 @@ repo_list_multi_page_1 = """
                           "totalCount": 1,
                           "nodes": [
                             {
-                              "name": "master"
+                              "name": "old-branch"
                             }
                           ]
                         },
@@ -116,7 +116,7 @@ repo_list_multi_page_1 = """
                   "totalCount": 4
                 },
                 "ref": {
-                  "name": "master"
+                  "name": "old-branch"
                 }
               }
             }
@@ -216,7 +216,7 @@ repo_list_multi_page_2 = """
                   "name": "repo-thjrecvix",
                   "defaultBranchRef": {
                     "id": "fhddjksfhdfhdsfhhjew3RENCKCIDSHFHDdjksfhdfhd",
-                    "name": "master"
+                    "name": "old-branch"
                   },
                   "branchProtectionRules": {
                     "edges": [
@@ -226,7 +226,7 @@ repo_list_multi_page_2 = """
                             "totalCount": 1,
                             "nodes": [
                               {
-                                "name": "master"
+                                "name": "old-branch"
                               }
                             ]
                           },
@@ -239,7 +239,7 @@ repo_list_multi_page_2 = """
                     "totalCount": 0
                   },
                   "ref": {
-                    "name": "master"
+                    "name": "old-branch"
                   }
                 }
               },

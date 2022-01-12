@@ -30,7 +30,7 @@ def setup_org(org_name="my-org"):
                             status=200,
                             content_type='text/json')
 
-def setup_repo(org_name='my-org', repo_name='my-repo', expected_default_branch='master'):
+def setup_repo(org_name='my-org', repo_name='my-repo', expected_default_branch='old-branch'):
     url = f"https://api.github.com/search/repositories?q=repo%3A{org_name}"+r"%2F"+f"{repo_name}&per_page=100"
     responses.add(responses.GET, url,
                             body=my_repo_search_result(expected_default_branch),
@@ -54,7 +54,7 @@ def test_client_can_get_repo_from_search():
     repo = get_repository(client, org, repo_name)
     assert repo is not None
 
-    assert "master" == repo.default_branch
+    assert "old-branch" == repo.default_branch
 
 @responses.activate
 def test_branch_can_be_copied():
@@ -63,7 +63,7 @@ def test_branch_can_be_copied():
     setup_org()
     setup_repo()
 
-    responses.add(responses.GET, "https://api.github.com/repos/my-org/my-repo/branches/master",
+    responses.add(responses.GET, "https://api.github.com/repos/my-org/my-repo/branches/old-branch",
                             body=my_repo_branch,
                             content_type='text/json',
                             status=200)
@@ -94,20 +94,20 @@ def test_can_handle_pr_rebase_correctly(status, expected_failures):
     """
     library client
     """
-    
+
     setup_org()
     setup_repo()
 
-    url = "https://api.github.com/repos/my-org/my-repo/pulls?state=open&base=master&sort=created&direction=desc&per_page=100"
+    url = "https://api.github.com/repos/my-org/my-repo/pulls?state=open&base=old-branch&sort=created&direction=desc&per_page=100"
 
-    responses.add(responses.GET, url, 
+    responses.add(responses.GET, url,
                     status=200,
                     body=prs_body,
                     content_type="text/json")
 
     patch_url = "https://api.github.com/repos/my-org/my-repo/pulls/1347"
 
-    responses.add(responses.PATCH, 
+    responses.add(responses.PATCH,
                         url=patch_url,
                         status=status,
                         content_type="text/json",
@@ -126,14 +126,14 @@ def test_can_handle_pr_rebase_correctly(status, expected_failures):
 
 @responses.activate
 def test_can_retrieve_branch_protection():
-    protection_url = "https://api.github.com/repos/octocat/Hello-World/branches/master/protection"
+    protection_url = "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection"
     responses.add(responses.GET, protection_url, status=200, content_type='text/json', body=branch_protection)
 
     token = '__dummy__'
     org = 'octocat'
     client = GithubRestClient(token)
 
-    protection = get_branch_protection(client, org, "Hello-World", 'master')
+    protection = get_branch_protection(client, org, "Hello-World", 'old-branch')
 
     assert None is not protection
     assert True == protection['enforce_admins']['enabled']
@@ -143,7 +143,7 @@ def test_protection_can_be_copied():
     """ Intercept http and mock client (get_repo) """
 
     setup_org("octocat")
-    protection_url = "https://api.github.com/repos/octocat/Hello-World/branches/master/protection"
+    protection_url = "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection"
     responses.add(responses.GET, protection_url, status=200, content_type='text/json', body=branch_protection)
 
     put_url = "https://api.github.com/repos/octocat/Hello-World/branches/main/protection"
@@ -154,7 +154,7 @@ def test_protection_can_be_copied():
     repo = "Hello-World"
     client = GithubRestClient(token)
 
-    success = copy_branch_protection(client, org, repo, 'master', 'main')
+    success = copy_branch_protection(client, org, repo, 'old-branch', 'main')
 
     assert True == success
 
@@ -186,25 +186,25 @@ def test_update_repo_default_branch():
 
 @responses.activate
 def test_delete_branch():
-    url = "https://api.github.com/repos/dummy_org/test/git/refs/heads/master"
+    url = "https://api.github.com/repos/dummy_org/test/git/refs/heads/old-branch"
 
     responses.add(responses.DELETE, url, status=204)
 
     token = '__dummy__'
 
     client = GithubRestClient(token)
-    success = delete_branch(client, "dummy_org", "test", "master")
+    success = delete_branch(client, "dummy_org", "test", "old-branch")
 
     assert success == True
 
 @responses.activate
 def test_delete_branch_protection():
-    url = "https://api.github.com/repos/dummy_org/test/branches/master/protection"
+    url = "https://api.github.com/repos/dummy_org/test/branches/old-branch/protection"
 
     responses.add(responses.DELETE, url, status=204)
 
     token = '__dummy__'
 
     client = GithubRestClient(token)
-    success = delete_old_branch_protection(client, "dummy_org", "test", "master")
+    success = delete_old_branch_protection(client, "dummy_org", "test", "old-branch")
     assert success == True

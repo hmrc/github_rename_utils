@@ -60,7 +60,7 @@ repos_body = """
   {
     "name": "my-repo",
     "full_name": "my-org/my-repo",
-    "default_branch": "master",
+    "default_branch": "old-branch",
     "teams_url": "http://not-shared.com"
   },
   {
@@ -82,7 +82,7 @@ my_empty_search_result = """
 {
   "total_count": 0,
   "incomplete_results": false,
-  "items": 
+  "items":
   []}
 """
 
@@ -129,7 +129,7 @@ def my_repo(expected_default_branch):
       "forks_count": 0,
       "open_issues_count": 0,
       """ + f"""
-      "master_branch": "{expected_default_branch}",
+      "main_branch": "{expected_default_branch}",
       "default_branch": "{expected_default_branch}",
       """ + """
       "score": 1,
@@ -199,7 +199,7 @@ def my_repo_search_result(expected_default_branch):
 {
   "total_count": 1,
   "incomplete_results": false,
-  "items": 
+  "items":
   [
     """ + my_repo(expected_default_branch) + """
   ]
@@ -573,7 +573,7 @@ pr_body = """
         "stargazers_count": 80,
         "watchers_count": 80,
         "size": 108,
-        "default_branch": "master",
+        "default_branch": "old-branch",
         "open_issues_count": 0,
         "is_template": true,
         "topics": [
@@ -620,8 +620,8 @@ pr_body = """
       }
     },
     "base": {
-      "label": "my-org:master",
-      "ref": "master",
+      "label": "my-org:old-branch",
+      "ref": "old-branch",
       "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
       "user": {
         "login": "my-org",
@@ -720,7 +720,7 @@ pr_body = """
         "stargazers_count": 80,
         "watchers_count": 80,
         "size": 108,
-        "default_branch": "master",
+        "default_branch": "old-branch",
         "open_issues_count": 0,
         "is_template": true,
         "topics": [
@@ -1018,25 +1018,25 @@ my_new_ref = """
 
 branch_protection = """
 {
-  "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection",
+  "url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection",
   "required_status_checks": {
-    "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks",
+    "url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/required_status_checks",
     "contexts": [
       "continuous-integration/travis-ci"
     ],
-    "contexts_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_status_checks/contexts",
+    "contexts_url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/required_status_checks/contexts",
     "enforcement_level": "non_admins"
   },
   "enforce_admins": {
-    "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins",
+    "url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/enforce_admins",
     "enabled": true
   },
   "required_pull_request_reviews": {
-    "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_pull_request_reviews",
+    "url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/required_pull_request_reviews",
     "dismissal_restrictions": {
-      "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions",
-      "users_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions/users",
-      "teams_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions/teams",
+      "url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/dismissal_restrictions",
+      "users_url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/dismissal_restrictions/users",
+      "teams_url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/dismissal_restrictions/teams",
       "users": [
         {
           "login": "octocat",
@@ -1081,10 +1081,10 @@ branch_protection = """
     "required_approving_review_count": 2
   },
   "restrictions": {
-    "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/restrictions",
-    "users_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/restrictions/users",
-    "teams_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/restrictions/teams",
-    "apps_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/restrictions/teams",
+    "url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/restrictions",
+    "users_url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/restrictions/users",
+    "teams_url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/restrictions/teams",
+    "apps_url": "https://api.github.com/repos/octocat/Hello-World/branches/old-branch/protection/restrictions/teams",
     "users": [
       {
         "login": "octocat",
