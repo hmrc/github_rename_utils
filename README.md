@@ -4,11 +4,11 @@
 
 ## Why rename?
 
-The default name for a branch has, until recently, been 'master' which is a word deemed inappropriate for use in this context. Changing 5k repositories overnight is not a manual task so this utility code is provided to help.
+The default name for a branch has, until recently, been a word deemed inappropriate for use in this context. Changing 5k repositories overnight is not a manual task so this utility code is provided to help.
 
 ## Why not use what Github provides?
 
-There is an api call which github has provided to make this easier but it doesn't work well with the 5k hmrc repos. We use branch protection to (amongst other things) ensure that all code commits are signed and default branches do not get deleted by mistake. This gets in the way of the provided 'easy rename'. The utility code provided here handles the branch protection.
+There is an api call which github has provided to make this easier but it doesn't work well with the 5k HMRC repos. We use branch protection to (amongst other things) ensure that all code commits are signed and default branches do not get deleted by mistake. This gets in the way of the provided 'easy rename'. The utility code provided here handles the branch protection.
 
 ## Usage
 
@@ -92,4 +92,4 @@ This utils package is managed by poetry and may (depending on your poetry config
 
 ## Docs for dependent libraries
 
-For expedience, some rest calls have been wrapped with [github3.py](https://github3py.readthedocs.io/en/master/narrative/index.html) and graphql calls are managed in code via [sgqlc](https://sgqlc.readthedocs.io/en/latest/index.html)
+For expedience, some rest calls have been wrapped with [github3.py](https://github3py.readthedocs.io/en/latest/narrative/index.html) and graphql calls are managed in code via [sgqlc](https://sgqlc.readthedocs.io/en/latest/index.html)

@@ -9,7 +9,7 @@ def build_team_report_variables(org, team, repo_page_cursor, unwanted_branch_nam
 
 def build_team_report_query():
     variables= {'teamSlug': non_null(str), 'org': non_null(str), 'reposCursor': str, 'unwantedBranchName': non_null(str), 'unwantedBranchQualifiedName': non_null(str)}
-    
+
     op = Operation(schema.Query, name='Team_Repos', variables=variables)
 
     org = op.organization(login=Variable('org'))
@@ -42,23 +42,23 @@ def build_team_report_query():
 def map_repository_data_list(interpreted_response, include_read, include_archived):
     mapped_objects = []
 
-    expected_pemissions = valid_permissions
+    expected_permissions = valid_permissions
     if not include_read:
-        expected_pemissions = [permission for permission in valid_permissions if permission not in ['READ', 'TRIAGE']]
+        expected_permissions = [permission for permission in valid_permissions if permission not in ['READ', 'TRIAGE']]
 
     for edge in interpreted_response.organization.team.repositories.edges:
-        if edge.permission not in expected_pemissions:
+        if edge.permission not in expected_permissions:
             continue
-        
+
         if (not include_archived) and edge.node.is_archived == True:
             continue
-        
+
         repo = edge.node
         bp = [edge.node for edge in repo.branch_protection_rules.edges if repo.default_branch_ref.name in [node.name for node in edge.node.matching_refs.nodes]]
         checks = []
         if bp is not None and len(bp) > 0:
             checks = bp[0].required_status_check_contexts
-        
+
         unwanted_branch = None
         if repo.ref:
             unwanted_branch = repo.ref.name
