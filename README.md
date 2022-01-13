@@ -47,7 +47,7 @@ from github_rename_utils.github_graphql_api import GithubGraphqlEndpoint
 from github_rename_utils.team_repo_report import get_team_repo_report
 
 endpoint = GithubGraphqlEndpoint("my-token")
-report = get_team_repo_report(endpoint, "my-org", "my-team")
+report = get_team_repo_report(endpoint, "my-org", "my-team", "old-branch-name")
 ```
 
 ### Monitoring
