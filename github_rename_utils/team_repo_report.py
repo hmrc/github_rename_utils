@@ -2,7 +2,7 @@ from github_rename_utils.team_repo_report_utils import build_team_report_query, 
     build_team_report_variables, map_repository_data_list
 
 
-def get_team_repo_report(endpoint, org, team, include_read=False, include_archived=False, unwanted_branch_name='master'):
+def get_team_repo_report(endpoint, org, team, include_read=False, include_archived=False, unwanted_branch_name=None):
 
     repo_page_cursor = ''
 
